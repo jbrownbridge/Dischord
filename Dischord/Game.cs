@@ -60,6 +60,10 @@ namespace Dischord
 
         private KeyboardState oldstate;
 
+        private SoundEffectInstance birdSong;
+        private float nextBirdSong;
+        private Random rand;
+
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -78,6 +82,7 @@ namespace Dischord
 
             controlMode = ControlMode.movement;
             characterControls = new Controls();
+            rand = new Random();
 
 
             base.Initialize();
@@ -95,16 +100,24 @@ namespace Dischord
             Texture2D enemy = Content.Load<Texture2D>("enemy");
             Texture2D obstacle = Content.Load<Texture2D>("obstacle");
             Texture2D smoke = Content.Load<Texture2D>("smoke");
+            Texture2D fire = Content.Load<Texture2D>("fire");
 
             spriteSheets["Enemy"]    = new Sprite(enemy, 128, 128, 8);
             spriteSheets["Character"] = new Sprite(obstacle, 64, 64, 4);
             spriteSheets["Obstacle"] = new Sprite(obstacle, 64, 64, 4);
             spriteSheets["Smoke"] = new Sprite(smoke, 32, 32, 1);
+            spriteSheets["Fire"] = new Sprite(fire, 32, 32, 1);
+            
+            sounds["Crackle"] = Content.Load<SoundEffect>("Sounds/crackle");
+            sounds["Walk"] = Content.Load<SoundEffect>("Sounds/walk");
+            sounds["Woods"] = Content.Load<SoundEffect>("Sounds/woods");
 
+            birdSong = sounds["Woods"].CreateInstance();
+            birdSong.Volume = 0.75f;
+            nextBirdSong = (float)(sounds["Woods"].Duration.TotalMilliseconds) + rand.Next((int)sounds["Woods"].Duration.TotalMilliseconds);
+            
             this.map = new Map(MAP_FILE_4);
             map.Update();
-
-            sounds["fsssh3"] = Content.Load<SoundEffect>("Sounds/fsssh3");
 
             // TODO: use this.Content to load your game content here
         }
@@ -153,9 +166,6 @@ namespace Dischord
             else
                 characterControls.Jump = false;
 
-            if(state.IsKeyDown(Keys.Enter) && oldstate.IsKeyUp(Keys.Enter))
-                map.Add(new SoundSource(new Point(64, 64), sounds["fsssh3"],1));
-
             if(state.IsKeyDown(Keys.Delete) && oldstate.IsKeyUp(Keys.Delete))
                 map.Add(new Fire(new Point(64, 64), 6000f));
 
@@ -175,6 +185,11 @@ namespace Dischord
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
+            nextBirdSong -= gameTime.ElapsedGameTime.Milliseconds;
+            if(nextBirdSong < 0) {
+                birdSong.Play();
+                nextBirdSong = (float)(sounds["Woods"].Duration.TotalMilliseconds * 2) + rand.Next((int)sounds["Woods"].Duration.TotalMilliseconds);
+            }
             map.Update();
             //map.draw();
             foreach (Entity e in map.Entities) {
@@ -260,6 +275,10 @@ namespace Dischord
 
         public Controls GetCharacterControls() {
             return characterControls;
+        }
+
+        public SoundEffect GetSound(String soundName) {
+            return sounds[soundName];
         }
     }
 }

@@ -11,8 +11,9 @@ namespace Dischord {
 
         protected float loopTimer;
 
-        public Fire(Point position, float lifeTimer) : base(position, Game.GetInstance().GetSprite("Enemy"), lifeTimer, VISIBILITY) {
+        public Fire(Point position, float lifeTimer) : base(position, Game.GetInstance().GetSprite("Fire"), lifeTimer, VISIBILITY) {
             loopTimer = lifeTimer;
+            Game.GetInstance().Map.Add(new SoundSource(position, Game.GetInstance().GetSound("Crackle"), 2));
         }
 
         public override void Update(GameTime gameTime) {
@@ -22,6 +23,7 @@ namespace Dischord {
                 isAlive = true;
                 lifeTimer = loopTimer;
                 Game.GetInstance().Map.Add(new Smoke(new Point(position.X, position.Y), SMOKE_TIME, VISIBILITY));
+                Game.GetInstance().Map.Add(new SoundSource(position, Game.GetInstance().GetSound("Crackle"), 2));
             }
         }
     }

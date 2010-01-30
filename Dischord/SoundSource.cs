@@ -6,10 +6,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 namespace Dischord {
-    class SoundSource : Source{
-        public SoundSource(Point position, SoundEffect sound, int volume) : base(position,null) {
+    class SoundSource : Source {        
+        public SoundSource(Point position, SoundEffectInstance sound, float duration, int volume) : base(position, null){
             if(sound != null) {
-                this.lifeTimer = (float)sound.Duration.TotalMilliseconds;
+                this.lifeTimer = (float)duration;
             }
             else {
                 this.lifeTimer = 0;
@@ -33,7 +33,7 @@ namespace Dischord {
             if(sound != null) {
                 sound.Play();
             }
-
         }
+        public SoundSource(Point position, SoundEffect sound, int volume) : this(position, sound.CreateInstance(), (float)sound.Duration.TotalMilliseconds,volume) { }
     }
 }
