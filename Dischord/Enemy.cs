@@ -10,5 +10,10 @@ namespace Dischord
     public class Enemy : Entity
     {
         public Enemy(Point position, Sprite sprite) : base(position, sprite) { }
+
+        public override char toChar()
+        {
+            return 'E';
+        }
     }
 }

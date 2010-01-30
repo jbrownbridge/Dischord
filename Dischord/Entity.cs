@@ -124,5 +124,10 @@ namespace Dischord
                 return Game.GetInstance().Map.getCell(x + 1, y + 1);
             }
         }
+
+        public virtual char toChar()
+        {
+            return '?';
+        }
     }
 }

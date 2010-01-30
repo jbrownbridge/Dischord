@@ -61,6 +61,10 @@ namespace Dischord
                 case MapCellType.wall:
                     return '#';
                 case MapCellType.floor:
+                    foreach (Entity e in entities)
+                    {
+                        return e.toChar();
+                    }
                     return '.';
             }
             throw new ArgumentException("Unexpected map cell");
