@@ -18,6 +18,12 @@ namespace Dischord
     /// </summary>
     public class Game : Microsoft.Xna.Framework.Game
     {
+        enum ControlMode {
+            menu,
+            movement,
+            action,
+        };
+
         public const int TILE_HEIGHT = 32;
         public const int TILE_WIDTH  = 32;
 
@@ -35,6 +41,10 @@ namespace Dischord
         }
         private SpriteBatch spriteBatch;
 
+        private ControlMode controlMode;
+
+        private Controls characterControls;
+
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -50,6 +60,10 @@ namespace Dischord
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            controlMode = ControlMode.movement;
+            characterControls = new Controls();
+
 
             base.Initialize();
         }
@@ -78,6 +92,38 @@ namespace Dischord
             // TODO: Unload any non ContentManager content here
         }
 
+        protected virtual void HandleMovementInput() {
+            KeyboardState state = Keyboard.GetState();
+            
+            // Allows the game to exit
+            if(state.IsKeyDown(Keys.Escape))
+                this.Exit();
+            
+            int horizonal = 0, vertical = 0;
+            
+            if(state.IsKeyDown(Keys.W))
+                ++vertical;
+
+            if(state.IsKeyDown(Keys.S))
+                --vertical;
+
+            if(state.IsKeyDown(Keys.D))
+                ++horizonal;
+
+            if(state.IsKeyDown(Keys.A))
+                --horizonal;
+
+            characterControls.Direction = (horizonal * 3) + vertical;
+        }
+
+        protected virtual void HandleActionInput() {
+
+        }
+
+        protected virtual void HandleMenuInput() {
+
+        }
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -85,9 +131,17 @@ namespace Dischord
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                this.Exit();
+            switch(controlMode) {
+                case ControlMode.movement:
+                    HandleMovementInput();
+                    break;
+                case ControlMode.action:
+                    HandleActionInput();
+                    break;
+                case ControlMode.menu:
+                    HandleMenuInput();
+                    break;
+            }
 
             foreach (Entity entity in entities)
             {
