@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character.cs" />
+    <Compile Include="Controls.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Obstacle.cs" />
