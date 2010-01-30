@@ -10,6 +10,10 @@ namespace Dischord
     {
         protected float lifeTimer;
         protected float strength;
+        public float Strength
+        {
+            get { return strength; }
+        }
 
         public Source(Point position, Sprite sprite) : base(position, sprite) {
             lifeTimer = 0;

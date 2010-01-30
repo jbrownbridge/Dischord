@@ -19,6 +19,7 @@ namespace Dischord
             this.destRectangle      = new Rectangle(position.X, position.Y, Game.TILE_WIDTH, Game.TILE_HEIGHT);
             this.moving             = false;
             this.isAlive            = true;
+            this.facing = 5;
         }
 
         public Entity(Point position, Sprite sprite) : this(position, sprite, 0.0f) {}
@@ -123,21 +124,30 @@ namespace Dischord
             {
                 case Direction.up:
                     position = new Point(Position.X, Position.Y-1);
+                    facing = 5;
                     break;
                 case Direction.down:
                     position = new Point(Position.X, Position.Y + 1);
+                    facing = 1;
                     break;
                 case Direction.left:
                     position = new Point(Position.X-1, Position.Y);
+                    facing = 3;
                     break;
                 case Direction.right:
                     position = new Point(Position.X+1, Position.Y);
+                    facing = 7;
                     break;
                 case Direction.still:
                     break;
                 default:
                     throw new ArgumentException("This should *never* print");
             }
+        }
+
+        public int Facing
+        {
+            get { return facing; }
         }
     }
 }

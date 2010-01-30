@@ -29,6 +29,77 @@ namespace Dischord
 
     public class ai
     {
+        public static Point getTarget(Map map)
+        {
+            float loudest = -1;
+            Point target = new Point(-1, -1);
+            foreach (Entity e in map.Entities)
+                if (e is Source)
+                {
+                    if ((e as Source).Strength > loudest)
+                    {
+                        loudest = (e as Source).Strength;
+                        int x = e.Position.X / Game.TILE_WIDTH;
+                        int y = e.Position.Y / Game.TILE_HEIGHT;
+                        target = new Point(x+1, y+1);
+                    }
+                }
+            return target;
+        }
+
+        public static Direction findPath(Map map, Point pos, int facing)
+        {
+            Point target = getTarget(map);
+            if (target.X != -1)
+                return findPath(map, pos, target);
+            // no sound source
+            Random rg = new Random();
+            double r = rg.NextDouble();
+            if (r < 0.002)
+            {
+                switch (facing)
+                {
+                    case 5:
+                        return Direction.left;
+                    case 1:
+                        return Direction.right;
+                    case 3:
+                        return Direction.down;
+                    case 7:
+                        return Direction.up;
+                }
+            }
+            else if (r < 0.004)
+            {
+                switch (facing)
+                {
+                    case 5:
+                        return Direction.right;
+                    case 1:
+                        return Direction.left;
+                    case 3:
+                        return Direction.up;
+                    case 7:
+                        return Direction.down;
+                }
+            }
+            else
+            {
+                switch (facing)
+                {
+                    case 5:
+                        return Direction.up;
+                    case 1:
+                        return Direction.down;
+                    case 3:
+                        return Direction.left;
+                    case 7:
+                        return Direction.right;
+                }
+            }
+            return Direction.still;
+        }
+
         public static Direction findPath(Map map, Point pos, Point target)
         {
             if (pos == target)
