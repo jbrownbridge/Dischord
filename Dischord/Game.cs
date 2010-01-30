@@ -182,8 +182,28 @@ namespace Dischord
                 {
                     int x = e.Position.X / Game.TILE_WIDTH + 1;
                     int y = e.Position.Y / Game.TILE_HEIGHT + 1;
-                    Direction d = ai.findPath(map, new Point(x, y), new Point(5, 1)); // FIXME: insert target
+                    Direction d = ai.findPath(map, new Point(x, y), e.Facing);
                     e.move(d);
+                    if (e.MapCell.Type != MapCell.MapCellType.floor)
+                    {
+                        switch (d)
+                        {
+                            case Direction.up:
+                                d = Direction.down;
+                                break;
+                            case Direction.down:
+                                d = Direction.up;
+                                break;
+                            case Direction.left:
+                                d = Direction.right;
+                                break;
+                            case Direction.right:
+                                d = Direction.left;
+                                break;
+                        }
+                        e.move(d);
+                        e.move(d);
+                    }
                 }
             }
             map.Update(); // FIXME: Are 2 update calls really required?
