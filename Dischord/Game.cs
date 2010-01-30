@@ -26,15 +26,23 @@ namespace Dischord
 
         public const int TILE_HEIGHT = 32;
         public const int TILE_WIDTH  = 32;
-        public const String MAP_FILE_1 = "";
-        public const String MAP_FILE_2 = "";
-        public const String MAP_FILE_3 = "";
-        public const String MAP_FILE_4 = "";
+        public const String MAP_FILE_1 = "maps/simple1.map";
+        public const String MAP_FILE_2 = "maps/simple2.map";
+        public const String MAP_FILE_3 = "maps/simple3.map";
+        public const String MAP_FILE_4 = "maps/simple4.map";
 
         GraphicsDeviceManager graphics;
 
         private Dictionary<String, Sprite> spriteSheets = new Dictionary<string,Sprite>();
-        private List<Entity> entities = new List<Entity>();
+
+        public IEnumerable<Entity> Entities
+        {
+            get
+            {
+                return this.Map.Entities;
+            }
+        }
+
 
         public SpriteBatch SpriteBatch
         {
@@ -80,12 +88,15 @@ namespace Dischord
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+                       
             Texture2D enemy = Content.Load<Texture2D>("enemy");
             Texture2D obstacle = Content.Load<Texture2D>("obstacle");
 
             spriteSheets["Enemy"]    = new Sprite(enemy, 128, 128, 8);
             spriteSheets["Obstacle"] = new Sprite(obstacle, 64, 64, 4);
+
+            map = new Map(MAP_FILE_1);
+
     
             // TODO: use this.Content to load your game content here
         }
@@ -155,7 +166,7 @@ namespace Dischord
                     break;
             }
 
-            foreach (Entity entity in entities)
+            foreach (Entity entity in Entities)
             {
                 entity.Update(gameTime);
             }
@@ -173,7 +184,7 @@ namespace Dischord
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            foreach (Entity entity in entities)
+            foreach (Entity entity in Entities)
             {
                 entity.Draw(gameTime);
             }

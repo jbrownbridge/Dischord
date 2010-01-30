@@ -72,11 +72,11 @@ namespace Dischord
                 int x = int.Parse(tokens[1]);
                 int y = int.Parse(tokens[2]);
                 char direction = tokens[3][0];
-                if (type == "Obstacle")
+                if (type == "obstacle")
                 {
                     return new Obstacle(new Point(x, y), Game.GetInstance().GetSprite("Obstacle"));
                 }
-                else if (type == "Enemy")
+                else if (type == "enemy")
                 {
                     return new Enemy(new Point(x, y), Game.GetInstance().GetSprite("Enemy"));
                 }
