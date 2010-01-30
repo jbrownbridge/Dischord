@@ -101,7 +101,7 @@ namespace Dischord
             spriteSheets["Obstacle"] = new Sprite(obstacle, 64, 64, 4);
             spriteSheets["Smoke"] = new Sprite(smoke, 32, 32, 1);
 
-            map = new Map(MAP_FILE_1);
+            this.map = new Map(MAP_FILE_4);
             map.Update();
 
             sounds["fsssh3"] = Content.Load<SoundEffect>("Sounds/fsssh3");
@@ -175,6 +175,19 @@ namespace Dischord
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
+            map.Update();
+            //map.draw();
+            foreach (Entity e in map.Entities) {
+                if (e is Enemy)
+                {
+                    int x = e.Position.X / Game.TILE_WIDTH + 1;
+                    int y = e.Position.Y / Game.TILE_HEIGHT + 1;
+                    Direction d = ai.findPath(map, new Point(x, y), new Point(5, 1)); // FIXME: insert target
+                    e.move(d);
+                }
+            }
+            map.Update(); // FIXME: Are 2 update calls really required?
+            //map.draw();
             KeyboardState state = Keyboard.GetState();
 
             switch(controlMode) {

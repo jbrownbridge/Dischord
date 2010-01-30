@@ -47,5 +47,9 @@ namespace Dischord
         public override void Draw(GameTime gameTime) {
             base.Draw(gameTime);
         }
+
+        public override char toChar() {
+            return 'C';
+        }
     }
 }

@@ -111,5 +111,33 @@ namespace Dischord
                 return Game.GetInstance().Map.getCell(x + 1, y + 1);
             }
         }
+
+        public virtual char toChar()
+        {
+            return '?';
+        }
+
+        public void move(Direction d)
+        {
+            switch (d)
+            {
+                case Direction.up:
+                    position = new Point(Position.X, Position.Y-1);
+                    break;
+                case Direction.down:
+                    position = new Point(Position.X, Position.Y + 1);
+                    break;
+                case Direction.left:
+                    position = new Point(Position.X-1, Position.Y);
+                    break;
+                case Direction.right:
+                    position = new Point(Position.X+1, Position.Y);
+                    break;
+                case Direction.still:
+                    break;
+                default:
+                    throw new ArgumentException("This should *never* print");
+            }
+        }
     }
 }
