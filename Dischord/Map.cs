@@ -63,6 +63,12 @@ namespace Dischord
         {
             entities.Add(e);
         }
+
+        public int cost()
+        {
+            // TODO
+            return 1;
+        }
     };
 
     public class Map
