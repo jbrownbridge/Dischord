@@ -9,11 +9,21 @@ namespace Dischord
 {
     public class Enemy : Entity
     {
-        public Enemy(Point position, Sprite sprite) : base(position, sprite) { }
+        protected int wait;
+
+        public Enemy(Point position, Sprite sprite) : base(position, sprite) {
+            wait = 0;
+        }
 
         public override char toChar()
         {
             return 'E';
+        }
+
+        public int Wait
+        {
+            get { return wait; }
+            set { wait = value; }
         }
     }
 }

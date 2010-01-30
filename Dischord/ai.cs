@@ -47,17 +47,23 @@ namespace Dischord
             return target;
         }
 
-        public static Direction findPath(Map map, Point pos, int facing)
+        public static Direction findPath(Map map, Point pos, Enemy c)
         {
+            if (c.Wait > 0)
+            {
+                c.Wait--;
+                return Direction.still;
+            }
             Point target = getTarget(map);
             if (target.X != -1)
                 return findPath(map, pos, target);
             // no sound source
             Random rg = new Random();
             double r = rg.NextDouble();
-            if (r < 0.002)
+            if (r < 0.006)
             {
-                switch (facing)
+                c.Wait = 20;
+                switch (c.Facing)
                 {
                     case 5:
                         return Direction.left;
@@ -69,9 +75,10 @@ namespace Dischord
                         return Direction.up;
                 }
             }
-            else if (r < 0.004)
+            else if (r < 0.012)
             {
-                switch (facing)
+                c.Wait = 20;
+                switch (c.Facing)
                 {
                     case 5:
                         return Direction.right;
@@ -85,7 +92,7 @@ namespace Dischord
             }
             else
             {
-                switch (facing)
+                switch (c.Facing)
                 {
                     case 5:
                         return Direction.up;
