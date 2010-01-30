@@ -105,6 +105,7 @@
     <Compile Include="Engine\Utility.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Fire.cs" />
+    <Compile Include="GlueTrap.cs" />
     <Compile Include="HudItem.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Obstacle.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Sprite.cs" />
     <Compile Include="StaticEntity.cs" />
     <Compile Include="VisualSource.cs" />
+    <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
@@ -169,6 +171,7 @@
     <Content Include="maps\simple4.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="sounds\fsssh3.wma" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

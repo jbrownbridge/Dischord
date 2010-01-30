@@ -94,6 +94,16 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="gluetrap.png">
+      <Name>gluetrap</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="immobilized.png">
+      <Name>immobilized</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="Map\basic+tree.xml">
       <Name>basic+tree</Name>
       <Importer>XmlImporter</Importer>
@@ -119,6 +129,11 @@
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Content>
+    <Compile Include="wall.png">
+      <Name>wall</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="smoke.png">
       <Name>smoke</Name>
       <Importer>TextureImporter</Importer>
