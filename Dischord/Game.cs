@@ -99,7 +99,7 @@ namespace Dischord
             spriteSheets["Character"] = new Sprite(obstacle, 64, 64, 4);
             spriteSheets["Obstacle"] = new Sprite(obstacle, 64, 64, 4);
 
-            map = new Map(MAP_FILE_1);
+            map = new Map(MAP_FILE_4);
 
             sounds["fsssh3"] = Content.Load<SoundEffect>("Sounds/fsssh3");
 
@@ -169,6 +169,7 @@ namespace Dischord
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
+            map.draw();
             KeyboardState state = Keyboard.GetState();
 
             switch(controlMode) {

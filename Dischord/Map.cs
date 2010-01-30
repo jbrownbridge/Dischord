@@ -181,10 +181,10 @@ namespace Dischord
         }
 
         // For Testing
-        public static void Main()
+        /*public static void Main()
         {
             Map map = new Map("maps/simple4.map");
             map.draw();
-        }
+        }*/
     }
 }
