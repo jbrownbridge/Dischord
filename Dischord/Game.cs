@@ -190,5 +190,10 @@ namespace Dischord
             }
             return game;
         }
+
+        public Sprite GetSprite(String spriteName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
