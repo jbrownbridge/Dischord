@@ -15,15 +15,15 @@ namespace Dischord
             base.Update(gameTime);
             foreach(Entity e in base.MapCell.Entities) {
                 if(e is Character)
-                    PlayerCollision();
+                    PlayerCollision((e as Character));
                 else if(e is Enemy)
-                    EnemyCollision();
+                    EnemyCollision((e as Enemy));
             }
         }
 
-        public virtual void PlayerCollision() { }
+        public virtual void PlayerCollision(Character character) { }
 
-        public virtual void EnemyCollision() { }
+        public virtual void EnemyCollision(Enemy enemy) { }
 
         public override char toChar()
         {
