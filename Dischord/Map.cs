@@ -54,6 +54,18 @@ namespace Dischord
             }
         }
 
+        public char toChar() {
+            switch (Type) {
+                case MapCellType.none:
+                    return ' ';
+                case MapCellType.wall:
+                    return '#';
+                case MapCellType.floor:
+                    return '.';
+            }
+            throw new ArgumentException("Unexpected map cell");
+        }
+
         public void clearEntities()
         {
             entities.Clear();
@@ -73,7 +85,7 @@ namespace Dischord
 
     public class Map
     {
-        private int width, height;
+        public int width, height;
         private MapCell[,] map;
         private List<Entity> entities = new List<Entity>();
 
@@ -145,24 +157,19 @@ namespace Dischord
                 e.MapCell.addEntity(e);*/
         }
 
+        public void draw() {
+            for (int i = 0; i < height+2; i++) {
+                for (int j = 0; j < width+2; j++)
+                    Console.Write(map[i, j].toChar());
+                Console.WriteLine();
+            }
+        }
+
         // For Testing
-        /*public static void Main()
+        public static void Main()
         {
-            string filename = "test_marco.txt";
-            if (File.Exists(filename))
-            {
-                File.Delete(filename);
-            }
-            using (StreamWriter fout = new StreamWriter(File.Open(filename, FileMode.CreateNew)))
-            {
-                fout.WriteLine("5 5");
-                for (int i = 0; i < 5; i++)
-                {
-                    fout.WriteLine("?#?..");
-                }
-            }
-            Map map = new Map(filename);
-            File.Delete(filename);
-        }*/
+            Map map = new Map("maps/simple4.map");
+            map.draw();
+        }
     }
 }
