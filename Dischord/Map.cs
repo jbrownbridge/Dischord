@@ -23,6 +23,14 @@ namespace Dischord
         MapCellType type;
         List<Entity> entities = new List<Entity>();
 
+        public IEnumerable<Entity> Entities {
+            get {
+                foreach(Entity e in entities) {
+                    yield return e;
+                }
+            }
+        }
+
         public MapCell() {
             type = MapCellType.none;
         }

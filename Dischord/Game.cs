@@ -198,7 +198,7 @@ namespace Dischord
                     int x = e.Position.X / Game.TILE_WIDTH + 1;
                     int y = e.Position.Y / Game.TILE_HEIGHT + 1;
                     Direction d = ai.findPath(map, new Point(x, y), e.Facing);
-                    e.move(d);
+                    (e as Enemy).move(d);
                     if (e.MapCell.Type != MapCell.MapCellType.floor)
                     {
                         switch (d)
@@ -216,8 +216,8 @@ namespace Dischord
                                 d = Direction.left;
                                 break;
                         }
-                        e.move(d);
-                        e.move(d);
+                        (e as Enemy).move(d);
+                        (e as Enemy).move(d);
                     }
                 }
             }
