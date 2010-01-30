@@ -90,6 +90,7 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Fire.cs" />
+    <Compile Include="HudItem.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Obstacle.cs" />
     <Compile Include="PriorityQueue.cs" />

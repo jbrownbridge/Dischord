@@ -64,6 +64,8 @@ namespace Dischord
         private float nextBirdSong;
         private Random rand;
 
+        private List<HudItem> hud;
+
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -83,6 +85,7 @@ namespace Dischord
             controlMode = ControlMode.movement;
             characterControls = new Controls();
             rand = new Random();
+            hud = new List<HudItem>();
 
 
             base.Initialize();
@@ -101,6 +104,16 @@ namespace Dischord
             Texture2D obstacle = Content.Load<Texture2D>("obstacle");
             Texture2D smoke = Content.Load<Texture2D>("smoke");
             Texture2D fire = Content.Load<Texture2D>("fire");
+
+            Texture2D hudleft = Content.Load<Texture2D>("HUD/hud-left");
+            Texture2D hudtop = Content.Load<Texture2D>("HUD/hud-top");
+            Texture2D hudright = Content.Load<Texture2D>("HUD/hud-right");
+            Texture2D hudbottom = Content.Load<Texture2D>("HUD/hud-bottom");
+
+            hud.Add(new HudItem(hudleft, new Point(0, (Window.ClientBounds.Height - hudleft.Height) / 2)));
+            hud.Add(new HudItem(hudright, new Point(Window.ClientBounds.Width - hudright.Width, (Window.ClientBounds.Height - hudright.Height) / 2)));
+            hud.Add(new HudItem(hudtop, new Point((Window.ClientBounds.Width - hudtop.Width) / 2, 0)));
+            hud.Add(new HudItem(hudbottom, new Point((Window.ClientBounds.Width - hudtop.Width) / 2, Window.ClientBounds.Height - hudbottom.Height)));
 
             spriteSheets["Enemy"]    = new Sprite(enemy, 128, 128, 8);
             spriteSheets["Character"] = new Sprite(obstacle, 64, 64, 4);
@@ -262,6 +275,11 @@ namespace Dischord
             {
                 entity.Draw(gameTime);
             }
+
+            foreach(HudItem h in hud) {
+                spriteBatch.Draw(h.Texture, new Rectangle(h.Position.X, h.Position.Y, h.Texture.Width, h.Texture.Height), Color.White);
+            }
+
             spriteBatch.End();
             // TODO: Add your drawing code here
 
