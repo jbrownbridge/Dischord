@@ -8,9 +8,10 @@ namespace Dischord
 {
     public class Character : Entity
     {
-        public Character(Point position, Sprite sprite) : base(position, sprite) {}
-        public Character(Point position, Sprite sprite, Controls controls) : base(position, sprite) { 
-        
+        protected Controls controls;
+
+        public Character(Point position, Sprite sprite) : base(position, sprite) {
+            controls = Game.GetInstance().GetCharacterControls();
         }
     }
 }
