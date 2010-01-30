@@ -29,20 +29,74 @@ namespace Dischord
 
     public class ai
     {
-        public static Point getTarget(Map map, Point pos)
+        public static bool can_see(Map map, Point pos, int facing, Point target)
         {
+            if (pos == target)
+                return true;
+            if (map.getCell(pos.X, pos.Y).Type != MapCell.MapCellType.floor)
+                return false;
+            int dx = 0, dy = 0, sx = 0, sy = 0;
+            switch (facing)
+            {
+                case 1:
+                    dx = 0; dy = 1;
+                    sx = 1; sy = 0;
+                    break;
+                case 3:
+                    dx = -1; dy = 0;
+                    sx = 0; sy = 1;
+                    break;
+                case 5:
+                    dx = 0; dy = -1;
+                    sx = 1; sy = 0;
+                    break;
+                case 7:
+                    dx = 1; dy = 0;
+                    sx = 0; sy = 1;
+                    break;
+                default:
+                    throw new ArgumentException("Shouldn't be here!!!");
+            }
+            Point[] ds = {
+                          new Point(pos.X + dx, pos.Y + dy),
+                          new Point(pos.X + dx + sx, pos.Y + dy + sy),
+                          new Point(pos.X + dx - sx, pos.Y + dy - sy),
+                      };
+            foreach (Point d in ds) {
+                if (can_see(map, d, facing, target))
+                    return true;
+            }
+            return false;
+        }
+
+        public static Point getTarget(Map map, Point pos, int facing)
+        {
+            int x = pos.X / Game.TILE_WIDTH;
+            int y = pos.Y / Game.TILE_HEIGHT;
+            pos = new Point(x + 1, y + 1);
             float strongest = -1;
             Point target = new Point(-1, -1);
             foreach (Entity e in map.Entities)
                 if (e is Source)
                 {
-                    double dis = Math.Sqrt(Math.Pow(e.Position.X - pos.X, 2) + Math.Pow(e.Position.Y - pos.Y, 2));
-                    if ((!(e is SoundSource) || dis <= 4 * Game.TILE_WIDTH) && (e as Source).Strength > strongest)
+                    bool known = false;
+                    x = e.Position.X / Game.TILE_WIDTH;
+                    y = e.Position.Y / Game.TILE_HEIGHT;
+                    Point source = new Point(x + 1, y + 1);
+                    if (e is SoundSource)
+                    {
+                        double dis = Math.Sqrt(Math.Pow(e.Position.X - pos.X, 2) + Math.Pow(e.Position.Y - pos.Y, 2));
+                        if (dis <= 4 * Game.TILE_WIDTH)
+                            known = true;
+                    }
+                    else if (e is VisualSource) {
+                        if (can_see(map, pos, facing, source))
+                            known = true;
+                    }
+                    if (known && (e as Source).Strength > strongest)
                     {
                         strongest = (e as Source).Strength;
-                        int x = e.Position.X / Game.TILE_WIDTH;
-                        int y = e.Position.Y / Game.TILE_HEIGHT;
-                        target = new Point(x+1, y+1);
+                        target = source;
                     }
                 }
             return target;
@@ -55,7 +109,7 @@ namespace Dischord
                 c.Wait--;
                 return Direction.still;
             }
-            Point target = getTarget(map, pos);
+            Point target = getTarget(map, pos, c.Facing);
             if (target.X != -1)
                 return findPath(map, pos, target);
             // no sound source
