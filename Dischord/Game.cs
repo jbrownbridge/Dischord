@@ -121,6 +121,11 @@ namespace Dischord
                 --horizonal;
 
             characterControls.Direction = (horizonal * 3) + vertical;
+
+            if(state.IsKeyDown(Keys.Space))
+                characterControls.Jump = true;
+            else
+                characterControls.Jump = false;
         }
 
         protected virtual void HandleActionInput() {
@@ -201,6 +206,10 @@ namespace Dischord
         public Sprite GetSprite(String spriteName)
         {
             return spriteSheets[spriteName];
+        }
+
+        public Controls GetCharacterControls() {
+            return characterControls;
         }
     }
 }
