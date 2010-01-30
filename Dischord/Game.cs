@@ -193,7 +193,7 @@ namespace Dischord
 
         public Sprite GetSprite(String spriteName)
         {
-            throw new NotImplementedException();
+            return spriteSheets[spriteName];
         }
     }
 }
