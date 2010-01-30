@@ -29,12 +29,13 @@ namespace Dischord
 
     public class ai
     {
-        public static bool can_see(Map map, Point pos, int facing, Point target)
+        public static bool can_see(Map map, Point pos, int facing, Point target, bool[,] vis)
         {
             if (pos == target)
                 return true;
-            if (map.getCell(pos.X, pos.Y).Type != MapCell.MapCellType.floor)
+            if (map.getCell(pos.X, pos.Y).Type != MapCell.MapCellType.floor || vis[pos.X, pos.Y])
                 return false;
+            vis[pos.X, pos.Y] = true;
             int dx = 0, dy = 0, sx = 0, sy = 0;
             switch (facing)
             {
@@ -63,7 +64,7 @@ namespace Dischord
                           new Point(pos.X + dx - sx, pos.Y + dy - sy),
                       };
             foreach (Point d in ds) {
-                if (can_see(map, d, facing, target))
+                if (can_see(map, d, facing, target, vis))
                     return true;
             }
             return false;
@@ -90,7 +91,8 @@ namespace Dischord
                             known = true;
                     }
                     else if (e is VisualSource) {
-                        if (can_see(map, pos, facing, source))
+                        bool[,] vis = new bool[map.width+2, map.height+2];
+                        if (can_see(map, pos, facing, source, vis))
                             known = true;
                     }
                     if (known && (e as Source).Strength > strongest)
