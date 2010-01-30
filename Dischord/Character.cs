@@ -13,5 +13,15 @@ namespace Dischord
         public Character(Point position, Sprite sprite) : base(position, sprite) {
             controls = Game.GetInstance().GetCharacterControls();
         }
+
+        public Character(Point position, Sprite sprite, float animationInterval) : base(position, sprite, animationInterval) {
+            controls = Game.GetInstance().GetCharacterControls();
+        }
+
+        public override void Draw(GameTime gameTime) {
+            base.Draw(gameTime);
+            if(controls.Direction == -2)
+                Console.Beep();
+        }
     }
 }

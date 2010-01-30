@@ -78,7 +78,7 @@ namespace Dischord
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Texture2D texture = Content.Load<Texture2D>("sprite_sheet");
             spriteSheets["sprite_sheet"] = new Sprite(texture, 64, 64, 16);
-            StaticEntity entity = new StaticEntity(new Point(0, 0), spriteSheets["sprite_sheet"], 1000f / 25f);
+            Character entity = new Character(new Point(0, 0), spriteSheets["sprite_sheet"], 1000f / 25f);
             entities.Add(entity);
             // TODO: use this.Content to load your game content here
         }

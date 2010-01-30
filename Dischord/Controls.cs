@@ -11,8 +11,7 @@ namespace Dischord {
                 return direction;
             }
             set {
-                if(value > 0 && value < 9)
-                    direction = value;
+                direction = value;
             }
         }
         private bool jump;
@@ -25,6 +24,9 @@ namespace Dischord {
             }
         }
 
-        public Controls() { }
+        public Controls() {
+            direction = 0;
+            jump = false;
+        }
     }
 }
