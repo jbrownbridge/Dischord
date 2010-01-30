@@ -151,7 +151,7 @@ namespace Dischord
                 entities.Add(Entity.GetInstance(line));
             }
             fin.Close();
-            Update();
+            //Update();
         }
 
         public void Add(Entity e) {
@@ -169,7 +169,7 @@ namespace Dischord
             
             foreach(Entity e in entities) {
                 if(e.IsAlive) {
-                    //e.MapCell.addEntity(e);
+                    e.MapCell.addEntity(e);
                     survivors.Add(e);
                 }
             }
