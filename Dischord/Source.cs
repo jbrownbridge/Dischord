@@ -3,25 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 
 namespace Dischord
 {
     public class Source : Entity
     {
         protected float lifeTimer;
+        protected float strength;
 
         public Source(Point position, Sprite sprite) : base(position, sprite) {
             lifeTimer = 0;
         }
 
-        public Source(Point position, Sprite sprite, float lifeTimer, SoundEffect sound) : this(position,sprite) {
-            if(lifeTimer > 0)
-                this.lifeTimer = lifeTimer;
-            else
-                this.lifeTimer = (float)sound.Duration.TotalMilliseconds;
-
-            sound.Play();
+        public Source(Point position, Sprite sprite, float lifeTimer, float strength) : this(position, sprite) {
+            this.lifeTimer = lifeTimer;
+            this.strength = strength;
         }
 
         public override void Update(GameTime gameTime) {

@@ -94,12 +94,15 @@ namespace Dischord
                        
             Texture2D enemy = Content.Load<Texture2D>("enemy");
             Texture2D obstacle = Content.Load<Texture2D>("obstacle");
+            Texture2D smoke = Content.Load<Texture2D>("smoke");
 
             spriteSheets["Enemy"]    = new Sprite(enemy, 128, 128, 8);
             spriteSheets["Character"] = new Sprite(obstacle, 64, 64, 4);
             spriteSheets["Obstacle"] = new Sprite(obstacle, 64, 64, 4);
+            spriteSheets["Smoke"] = new Sprite(smoke, 32, 32, 1);
 
             map = new Map(MAP_FILE_1);
+            map.Update();
 
             sounds["fsssh3"] = Content.Load<SoundEffect>("Sounds/fsssh3");
 
@@ -151,7 +154,10 @@ namespace Dischord
                 characterControls.Jump = false;
 
             if(state.IsKeyDown(Keys.Enter) && oldstate.IsKeyUp(Keys.Enter))
-                map.Add(new Source(new Point(300, 300), spriteSheets["Enemy"],0f,sounds["fsssh3"]));
+                map.Add(new SoundSource(new Point(64, 64), sounds["fsssh3"],1));
+
+            if(state.IsKeyDown(Keys.Delete) && oldstate.IsKeyUp(Keys.Delete))
+                map.Add(new Fire(new Point(64, 64), 6000f));
 
         }
 

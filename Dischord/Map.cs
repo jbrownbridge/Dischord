@@ -70,6 +70,7 @@ namespace Dischord
         private int width, height;
         private MapCell[,] map;
         private List<Entity> entities = new List<Entity>();
+        private List<Entity> additions = new List<Entity>();
 
         public IEnumerable<Entity> Entities
         {
@@ -84,7 +85,10 @@ namespace Dischord
 
         public MapCell getCell(int x, int y)
         {
-            return map[y, x];
+            if(x <= width && x > 0 && y <= height && y > 0)
+                return map[y, x];
+            else
+                return null;
         }
 
         public Map(): this(0, 0) {}
@@ -129,11 +133,11 @@ namespace Dischord
                 entities.Add(Entity.GetInstance(line));
             }
             fin.Close();
-            Update();
+            //Update();
         }
 
         public void Add(Entity e) {
-            entities.Add(e);
+            additions.Add(e);
         }
 
         public void Update()
@@ -147,10 +151,26 @@ namespace Dischord
             
             foreach(Entity e in entities) {
                 if(e.IsAlive) {
-                    //e.MapCell.addEntity(e);
-                    survivors.Add(e);
+                    MapCell tmpcell = e.MapCell;
+                    if(tmpcell != null) {
+                        e.MapCell.addEntity(e);
+                        survivors.Add(e);
+                    }
                 }
             }
+
+            foreach(Entity e in additions) {
+                if(e.IsAlive) {
+                    MapCell tmpcell = e.MapCell;
+                    if(tmpcell != null) {
+                        e.MapCell.addEntity(e);
+                        survivors.Add(e);
+                    }
+                }
+            }
+
+            additions.Clear();
+
             entities = survivors;
         }
 

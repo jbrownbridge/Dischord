@@ -95,19 +95,6 @@ namespace Dischord
                     return (Entity)Activator.CreateInstance(t, new object[] { new Point(x, y), Game.GetInstance().GetSprite(type)});
                 else
                     throw new ArgumentException(String.Format("Unknown entity type: {0}\n", type));
-
-                /*if (type == "obstacle")
-                {
-                    return new Obstacle(new Point(x, y), Game.GetInstance().GetSprite("Obstacle"));
-                }
-                else if (type == "enemy")
-                {
-                    return new Enemy(new Point(x, y), Game.GetInstance().GetSprite("Enemy"));
-                }
-                else
-                {
-                    throw new ArgumentException(String.Format("Unknown entity type: {0}\n", type));
-                }*/
             }
             else
             {

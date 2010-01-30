@@ -88,14 +88,18 @@
     <Compile Include="Controls.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="Fire.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Obstacle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Smoke.cs" />
+    <Compile Include="SoundSource.cs" />
     <Compile Include="Source.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="StaticEntity.cs" />
+    <Compile Include="VisualSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
