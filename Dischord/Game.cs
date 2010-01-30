@@ -93,7 +93,7 @@ namespace Dischord
             Texture2D obstacle = Content.Load<Texture2D>("obstacle");
 
             spriteSheets["Enemy"]    = new Sprite(enemy, 128, 128, 8);
-            spriteSheets["Character"] = new Sprite(enemy, 128, 128, 8);
+            spriteSheets["Character"] = new Sprite(obstacle, 64, 64, 4);
             spriteSheets["Obstacle"] = new Sprite(obstacle, 64, 64, 4);
 
             map = new Map(MAP_FILE_1);
@@ -116,22 +116,31 @@ namespace Dischord
             // Allows the game to exit
             if(state.IsKeyDown(Keys.Escape))
                 this.Exit();
-            
-            int horizonal = 0, vertical = 0;
-            
-            if(state.IsKeyDown(Keys.W))
-                ++vertical;
 
-            if(state.IsKeyDown(Keys.S))
-                --vertical;
+            int facing = 0;
 
-            if(state.IsKeyDown(Keys.D))
-                ++horizonal;
+            if(state.IsKeyDown(Keys.A)) {
+                facing = 3;
+                if(state.IsKeyDown(Keys.W))
+                    ++facing;
+                else if(state.IsKeyDown(Keys.S))
+                    --facing;
+            }
+            else if(state.IsKeyDown(Keys.D)) {
+                facing = 7;
+                if(state.IsKeyDown(Keys.W))
+                    --facing;
+                else if(state.IsKeyDown(Keys.S))
+                    ++facing;
+            }
+            else if(state.IsKeyDown(Keys.W)) {
+                facing = 5;
+            }
+            else if(state.IsKeyDown(Keys.S)) {
+                facing = 1;
+            }
 
-            if(state.IsKeyDown(Keys.A))
-                --horizonal;
-
-            characterControls.Direction = (horizonal * 3) + vertical;
+            characterControls.Direction = facing;
 
             if(state.IsKeyDown(Keys.Space))
                 characterControls.Jump = true;

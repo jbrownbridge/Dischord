@@ -20,17 +20,28 @@ namespace Dischord
 
         public override void Update(GameTime gameTime) {
             base.Update(gameTime);
+
+            if(controls.Direction != 0) {
+                animationInterval = 100f;
+                moving = true;
+                facing = controls.Direction;
+            }
+            else {
+                animationInterval = 0f;
+                moving = false;
+            }
             
-            if(controls.Direction > 1)
-                position.X += 1;
-            else if(controls.Direction < -1)
-                position.X -= 1;
+            if(moving) {
+                if(facing > 1 && facing < 5)
+                    --position.X;
+                else if(facing > 5 && facing < 9)
+                    ++position.X;
 
-            if(controls.Direction == -2 || controls.Direction == 1 || controls.Direction == 4)
-                position.Y -= 1;
-            else if(controls.Direction == -4 || controls.Direction == -1 || controls.Direction == 2)
-                position.Y += 1;
-
+                if(facing > 3 && facing < 7)
+                    --position.Y;
+                else if(facing == 2 || facing == 1 || facing == 8)
+                    ++position.Y;
+            }
         }
 
         public override void Draw(GameTime gameTime) {

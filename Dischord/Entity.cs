@@ -17,6 +17,7 @@ namespace Dischord
             this.currentFrame       = 0;
             this.animationTimer     = 0.0f;
             this.destRectangle      = new Rectangle(position.X, position.Y, Game.TILE_WIDTH, Game.TILE_HEIGHT);
+            this.moving             = false;
         }
 
         public Entity(Point position, Sprite sprite) : this(position, sprite, 0.0f) {}
@@ -39,10 +40,12 @@ namespace Dischord
         }
         protected Sprite sprite;
 
-        private float animationInterval;
+        protected float animationInterval;
         private float animationTimer;
         private int currentFrame;
         private Rectangle destRectangle;
+        protected int facing;
+        protected bool moving;
 
         public virtual void Update(GameTime gameTime)
         {
@@ -76,7 +79,7 @@ namespace Dischord
 
                 Type t = Type.GetType("Dischord." + type);
                 if(t != null)
-                    return (Entity)Activator.CreateInstance(t, new object[] { new Point(x, y), Game.GetInstance().GetSprite(type) });
+                    return (Entity)Activator.CreateInstance(t, new object[] { new Point(x, y), Game.GetInstance().GetSprite(type)});
                 else
                     throw new ArgumentException(String.Format("Unknown entity type: {0}\n", type));
 
