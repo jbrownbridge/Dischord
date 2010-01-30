@@ -104,6 +104,9 @@ namespace Dischord
             Texture2D obstacle = Content.Load<Texture2D>("obstacle");
             Texture2D smoke = Content.Load<Texture2D>("smoke");
             Texture2D fire = Content.Load<Texture2D>("fire");
+            Texture2D gluetrap = Content.Load<Texture2D>("gluetrap");
+            Texture2D immobilized = Content.Load<Texture2D>("immobilized");
+            Texture2D wall = Content.Load<Texture2D>("wall");
 
             Texture2D hudleft = Content.Load<Texture2D>("HUD/hud-left");
             Texture2D hudtop = Content.Load<Texture2D>("HUD/hud-top");
@@ -120,6 +123,9 @@ namespace Dischord
             spriteSheets["Obstacle"] = new Sprite(obstacle, 64, 64, 4);
             spriteSheets["Smoke"] = new Sprite(smoke, 32, 32, 1);
             spriteSheets["Fire"] = new Sprite(fire, 32, 32, 1);
+            spriteSheets["GlueTrap"] = new Sprite(gluetrap, 32, 32, 1);
+            spriteSheets["Immobilized"] = new Sprite(immobilized, 64, 64, 4);
+            spriteSheets["Wall"] = new Sprite(wall, 32, 32, 1);
             
             sounds["Crackle"] = Content.Load<SoundEffect>("Sounds/crackle");
             sounds["Walk"] = Content.Load<SoundEffect>("Sounds/walk");
@@ -129,7 +135,7 @@ namespace Dischord
             birdSong.Volume = 0.75f;
             nextBirdSong = (float)(sounds["Woods"].Duration.TotalMilliseconds) + rand.Next((int)sounds["Woods"].Duration.TotalMilliseconds);
             
-            this.map = new Map(MAP_FILE_4);
+            this.map = new Map(MAP_FILE_1);
             map.Update();
 
             // TODO: use this.Content to load your game content here

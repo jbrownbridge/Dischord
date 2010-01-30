@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using Microsoft.Xna.Framework;
 
 namespace Dischord
 {
@@ -152,8 +153,11 @@ namespace Dischord
                 String line = fin.ReadLine();
                 if (String.IsNullOrEmpty(line) || line.Length != width)
                     throw new ArgumentException("Map file borked, ffuuuuuuuuuuuuuu");
-                for (int j = 0; j < width; j++)
+                for(int j = 0; j < width; j++) {
                     map[i + 1, j + 1] = new MapCell(line[j]);
+                    if(map[i + 1, j + 1].Type == MapCell.MapCellType.wall)
+                        entities.Add(new Wall(new Point((j + 1)*32, (i + 1)*32)));
+                }
             }
             while (true)
             {

@@ -83,9 +83,11 @@ namespace Dischord
             String[] tokens = data.Split();
             if (tokens.Length >= 4)
             {
-                Char[] chartype = tokens[0].ToLower().ToCharArray();
-                chartype[0] = chartype[0].ToString().ToUpper().ToCharArray()[0];
-                String type = new String(chartype);
+                //Char[] chartype = tokens[0].ToLower().ToCharArray();
+                //chartype[0] = chartype[0].ToString().ToUpper().ToCharArray()[0];
+                //String type = new String(chartype);
+
+                String type = tokens[0];
 
                 int x = int.Parse(tokens[1]);
                 int y = int.Parse(tokens[2]);
