@@ -29,16 +29,17 @@ namespace Dischord
 
     public class ai
     {
-        public static Point getTarget(Map map)
+        public static Point getTarget(Map map, Point pos)
         {
-            float loudest = -1;
+            float strongest = -1;
             Point target = new Point(-1, -1);
             foreach (Entity e in map.Entities)
                 if (e is Source)
                 {
-                    if ((e as Source).Strength > loudest)
+                    double dis = Math.Sqrt(Math.Pow(e.Position.X - pos.X, 2) + Math.Pow(e.Position.Y - pos.Y, 2));
+                    if ((!(e is SoundSource) || dis <= 4 * Game.TILE_WIDTH) && (e as Source).Strength > strongest)
                     {
-                        loudest = (e as Source).Strength;
+                        strongest = (e as Source).Strength;
                         int x = e.Position.X / Game.TILE_WIDTH;
                         int y = e.Position.Y / Game.TILE_HEIGHT;
                         target = new Point(x+1, y+1);
@@ -54,7 +55,7 @@ namespace Dischord
                 c.Wait--;
                 return Direction.still;
             }
-            Point target = getTarget(map);
+            Point target = getTarget(map, pos);
             if (target.X != -1)
                 return findPath(map, pos, target);
             // no sound source
