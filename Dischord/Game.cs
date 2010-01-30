@@ -26,6 +26,10 @@ namespace Dischord
 
         public const int TILE_HEIGHT = 32;
         public const int TILE_WIDTH  = 32;
+        public const String MAP_FILE_1 = "";
+        public const String MAP_FILE_2 = "";
+        public const String MAP_FILE_3 = "";
+        public const String MAP_FILE_4 = "";
 
         GraphicsDeviceManager graphics;
 
@@ -76,10 +80,13 @@ namespace Dischord
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Texture2D texture = Content.Load<Texture2D>("sprite_sheet");
-            spriteSheets["sprite_sheet"] = new Sprite(texture, 64, 64, 16);
-            StaticEntity entity = new StaticEntity(new Point(0, 0), spriteSheets["sprite_sheet"], 1000f / 25f);
-            entities.Add(entity);
+
+            Texture2D enemy = Content.Load<Texture2D>("enemy");
+            Texture2D obstacle = Content.Load<Texture2D>("obstacle");
+
+            spriteSheets["Enemy"]    = new Sprite(enemy, 128, 128, 8);
+            spriteSheets["Obstacle"] = new Sprite(obstacle, 64, 64, 4);
+    
             // TODO: use this.Content to load your game content here
         }
 
