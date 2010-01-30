@@ -65,7 +65,30 @@ namespace Dischord
         public static Entity GetInstance(String data)
         {
             // TODO(jason)
-            throw new NotImplementedException();
+            String[] tokens = data.Split();
+            if (tokens.Length >= 4)
+            {
+                String type = tokens[0];
+                int x = int.Parse(tokens[1]);
+                int y = int.Parse(tokens[2]);
+                char direction = tokens[3][0];
+                if (type == "Obstacle")
+                {
+                    return new Obstacle(new Point(x, y), Game.GetInstance().GetSprite("Obstacle"));
+                }
+                else if (type == "Enemy")
+                {
+                    return new Enemy(new Point(x, y), Game.GetInstance().GetSprite("Enemy"));
+                }
+                else
+                {
+                    throw new ArgumentException(String.Format("Unknown entity type: {0}\n", type));
+                }
+            }
+            else
+            {
+                throw new ArgumentException(String.Format("Data has invalid format: {0}\n", data));
+            }
         }
 
         public MapCell MapCell
