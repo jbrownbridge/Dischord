@@ -30,6 +30,7 @@ namespace Dischord
         public const String MAP_FILE_2 = "maps/simple2.map";
         public const String MAP_FILE_3 = "maps/simple3.map";
         public const String MAP_FILE_4 = "maps/simple4.map";
+        public const String MAP_FILE_5 = "maps/large1.map";
 
         GraphicsDeviceManager graphics;
 
@@ -116,7 +117,7 @@ namespace Dischord
             birdSong.Volume = 0.75f;
             nextBirdSong = (float)(sounds["Woods"].Duration.TotalMilliseconds) + rand.Next((int)sounds["Woods"].Duration.TotalMilliseconds);
             
-            this.map = new Map(MAP_FILE_4);
+            this.map = new Map(MAP_FILE_5);
             map.Update();
 
             // TODO: use this.Content to load your game content here
