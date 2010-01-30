@@ -29,52 +29,116 @@ namespace Dischord
 
     public class ai
     {
-        public static bool can_see(Map map, Point pos, int facing, Point target, bool[,] vis)
+        public static bool intersection(Point p1, Point p2, Point p3, Point p4)
         {
-            if (pos == target)
-                return true;
-            if (map.getCell(pos.X, pos.Y).Type != MapCell.MapCellType.floor || vis[pos.X, pos.Y])
+            double xD1, yD1, xD2, yD2, xD3, yD3;
+            double dot, deg, len1, len2;
+            double segmentLen1, segmentLen2;
+            double ua, ub, div;
+
+            // calculate differences
+            xD1 = p2.X - p1.X;
+            xD2 = p4.X - p3.X;
+            yD1 = p2.Y - p1.Y;
+            yD2 = p4.Y - p3.Y;
+            xD3 = p1.X - p3.X;
+            yD3 = p1.Y - p3.Y;
+
+            // calculate the lengths of the two lines
+            len1 = Math.Sqrt(xD1 * xD1 + yD1 * yD1);
+            len2 = Math.Sqrt(xD2 * xD2 + yD2 * yD2);
+
+            // calculate angle between the two lines.
+            dot = (xD1 * xD2 + yD1 * yD2); // dot product
+            deg = dot / (len1 * len2);
+
+            // if abs(angle)==1 then the lines are parallell,
+            // so no intersection is possible
+            if (Math.Abs(deg) == 1) return false;
+
+            // find intersection Pt between two lines
+            div = yD2 * xD1 - xD2 * yD1;
+            ua = (xD2 * yD3 - yD2 * xD3) / div;
+            ub = (xD1 * yD3 - yD1 * xD3) / div;
+            double ptX = p1.X + ua * xD1;
+            double ptY = p1.Y + ua * yD1;
+
+            // calculate the combined length of the two segments
+            // between Pt-p1 and Pt-p2
+            xD1 = ptX - p1.X;
+            xD2 = ptX - p2.X;
+            yD1 = ptY - p1.Y;
+            yD2 = ptY - p2.Y;
+            segmentLen1 = Math.Sqrt(xD1 * xD1 + yD1 * yD1) + Math.Sqrt(xD2 * xD2 + yD2 * yD2);
+
+            // calculate the combined length of the two segments
+            // between Pt-p3 and Pt-p4
+            xD1 = ptX - p3.X;
+            xD2 = ptX - p4.X;
+            yD1 = ptY - p3.Y;
+            yD2 = ptY - p4.Y;
+            segmentLen2 = Math.Sqrt(xD1 * xD1 + yD1 * yD1) + Math.Sqrt(xD2 * xD2 + yD2 * yD2);
+
+            // if the lengths of both sets of segments are the same as
+            // the lenghts of the two lines the point is actually
+            // on the line segment.
+
+            // if the point isn't on the line, return null
+            if (Math.Abs(len1 - segmentLen1) > 0.01 || Math.Abs(len2 - segmentLen2) > 0.01)
                 return false;
-            vis[pos.X, pos.Y] = true;
-            int dx = 0, dy = 0, sx = 0, sy = 0;
+
+            // return the valid intersection
+//            Console.WriteLine(p1 + " " + p2 + " " + p3 + " " + p4 + ": " + ptX + " " + ptY);
+            return true; // pt is the actual point of intersection
+        }
+
+        public static bool intersection(Point lineA, Point lineB, Point squareA, int squreSize)
+        {
+            return
+                intersection(lineA, lineB, squareA, new Point(squareA.X + Game.TILE_WIDTH, squareA.Y)) ||
+                intersection(lineA, lineB, squareA, new Point(squareA.X + Game.TILE_WIDTH, squareA.Y)) ||
+                intersection(lineA, lineB, new Point(squareA.X + Game.TILE_WIDTH, squareA.Y), new Point(squareA.X + Game.TILE_WIDTH, squareA.Y + Game.TILE_HEIGHT)) ||
+                intersection(lineA, lineB, new Point(squareA.X, squareA.Y + Game.TILE_HEIGHT), new Point(squareA.X + Game.TILE_WIDTH, squareA.Y + Game.TILE_HEIGHT));
+        }
+
+        public static bool can_see(Map map, Point pos, int facing, Point target)
+        {
+            int dx = 0, dy = 0;
             switch (facing)
             {
                 case 1:
                     dx = 0; dy = 1;
-                    sx = 1; sy = 0;
                     break;
                 case 3:
                     dx = -1; dy = 0;
-                    sx = 0; sy = 1;
                     break;
                 case 5:
                     dx = 0; dy = -1;
-                    sx = 1; sy = 0;
                     break;
                 case 7:
                     dx = 1; dy = 0;
-                    sx = 0; sy = 1;
                     break;
                 default:
                     throw new ArgumentException("Shouldn't be here!!!");
             }
-            Point[] ds = {
-                          new Point(pos.X + dx, pos.Y + dy),
-                          new Point(pos.X + dx + sx, pos.Y + dy + sy),
-                          new Point(pos.X + dx - sx, pos.Y + dy - sy),
-                      };
-            foreach (Point d in ds) {
-                if (can_see(map, d, facing, target, vis))
-                    return true;
-            }
-            return false;
+            
+            for (int x = 0; x < map.width+2; x++)
+                for (int y = 0; y < map.height + 2; y++)
+                    if (map.getCell(x, y).Type != MapCell.MapCellType.floor &&
+                            intersection(pos, target, new Point(x, y), 1))
+                    {
+//                        Console.WriteLine("Intersection: " + x + " " + y + "(" + pos + ", " + target + ")");
+                        return false;
+                    }
+            return true;
         }
 
         public static Point getTarget(Map map, Point pos, int facing)
         {
+            int foo = pos.X + pos.Y; // TODO: remove
             int x = pos.X / Game.TILE_WIDTH;
             int y = pos.Y / Game.TILE_HEIGHT;
-            pos = new Point(x + 1, y + 1);
+            Point pos_tile = new Point(x + 1, y + 1);
             float strongest = -1;
             Point target = new Point(-1, -1);
             foreach (Entity e in map.Entities)
@@ -86,13 +150,11 @@ namespace Dischord
                     Point source = new Point(x + 1, y + 1);
                     if (e is SoundSource)
                     {
-                        double dis = Math.Sqrt(Math.Pow(e.Position.X - pos.X, 2) + Math.Pow(e.Position.Y - pos.Y, 2));
-                        if (dis <= 4 * Game.TILE_WIDTH)
+                        double dis = Math.Sqrt(Math.Pow(e.Position.X - pos_tile.X, 2) + Math.Pow(e.Position.Y - pos_tile.Y, 2));
+                        if (dis <= 2 * Game.TILE_WIDTH)
                             known = true;
                     }
-                    else if (e is VisualSource) {
-                        bool[,] vis = new bool[map.width+2, map.height+2];
-                        if (can_see(map, pos, facing, source, vis))
+                    else if (e is VisualSource && can_see(map, pos, facing, e.Position)) {
                             known = true;
                     }
                     if (known && (e as Source).Strength > strongest)
@@ -113,7 +175,11 @@ namespace Dischord
             }
             Point target = getTarget(map, pos, c.Facing);
             if (target.X != -1)
-                return findPath(map, pos, target);
+            {
+                int x = pos.X / Game.TILE_WIDTH + 1;
+                int y = pos.Y / Game.TILE_HEIGHT + 1;
+                return findPath(map, new Point(x, y), target);
+            }
             // no sound source
             Random rg = new Random();
             double r = rg.NextDouble();
