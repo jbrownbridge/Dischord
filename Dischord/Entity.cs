@@ -18,6 +18,7 @@ namespace Dischord
             this.animationTimer     = 0.0f;
             this.destRectangle      = new Rectangle(position.X, position.Y, Game.TILE_WIDTH, Game.TILE_HEIGHT);
             this.moving             = false;
+            this.isAlive            = true;
         }
 
         public Entity(Point position, Sprite sprite) : this(position, sprite, 0.0f) {}
@@ -40,6 +41,13 @@ namespace Dischord
         }
         protected Sprite sprite;
 
+        public bool IsAlive {
+            get {
+                return isAlive;
+            }
+        }
+        protected bool isAlive;
+
         protected float animationInterval;
         private float animationTimer;
         private int currentFrame;
@@ -49,21 +57,23 @@ namespace Dischord
 
         public virtual void Update(GameTime gameTime)
         {
-            if (animationInterval > 0f && sprite.FrameCount > 1) {
-                animationTimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-                if (animationTimer > animationInterval)
-                {
-                    currentFrame++;
-                    currentFrame %= sprite.FrameCount;
-                    animationTimer = 0f;
+            if(sprite != null) {
+                if(animationInterval > 0f && sprite.FrameCount > 1) {
+                    animationTimer += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                    if(animationTimer > animationInterval) {
+                        currentFrame++;
+                        currentFrame %= sprite.FrameCount;
+                        animationTimer = 0f;
+                    }
                 }
+                destRectangle = new Rectangle(position.X, position.Y, Game.TILE_WIDTH, Game.TILE_HEIGHT);
             }
-            destRectangle = new Rectangle(position.X, position.Y, Game.TILE_WIDTH, Game.TILE_HEIGHT);
         }
 
         public virtual void Draw(GameTime gameTime)
         {
-            Sprite.Draw(destRectangle, currentFrame);
+            if(sprite != null)
+                Sprite.Draw(destRectangle, currentFrame);
         }
 
         public static Entity GetInstance(String data)
@@ -72,7 +82,10 @@ namespace Dischord
             String[] tokens = data.Split();
             if (tokens.Length >= 4)
             {
-                String type = tokens[0];
+                Char[] chartype = tokens[0].ToLower().ToCharArray();
+                chartype[0] = chartype[0].ToString().ToUpper().ToCharArray()[0];
+                String type = new String(chartype);
+
                 int x = int.Parse(tokens[1]);
                 int y = int.Parse(tokens[2]);
                 char direction = tokens[3][0];

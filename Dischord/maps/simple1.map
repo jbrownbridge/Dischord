@@ -6,5 +6,5 @@
 .....
 Obstacle 32 32 d
 Obstacle 64 64 u
-Enemy 128 32 l
-Character 72 83 r
+enemy 128 32 l
+character 72 83 r
