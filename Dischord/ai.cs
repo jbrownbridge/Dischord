@@ -31,7 +31,7 @@ namespace Dischord
         public static Direction findPath(Map map, Point pos, Point target)
         {
             int[,] d = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-            bool[,] vis = new bool[map.width, map.height];
+            bool[,] vis = new bool[map.width+2, map.height+2];
             Direction[] dir = { Direction.up, Direction.down, Direction.left, Direction.right };
             PriorityQueue<int, PQEntry> queue = new PriorityQueue<int,PQEntry>();
             queue.Enqueue(0, new PQEntry(0, target, pos)); // going from target to pos, purposefully in reverse
