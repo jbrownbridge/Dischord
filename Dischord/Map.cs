@@ -47,6 +47,8 @@ namespace Dischord
                 case '.':
                     type = MapCellType.floor;
                     break;
+                case 'X':
+                    break;
                 default:
                     throw new ArgumentException("Unexpected map cell: " + c);
             }
@@ -106,14 +108,14 @@ namespace Dischord
             width = int.Parse(lineArray[0]);
             height = int.Parse(lineArray[1]);
             //init(int.Parse(lineArray[0]), int.Parse(lineArray[1]));
-            map = new MapCell[width + 2, height + 2];
+            map = new MapCell[height + 2, width + 2];
             for (int i = 0; i < height; i++)
             {
                 String line = fin.ReadLine();
                 if (String.IsNullOrEmpty(line) || line.Length != width)
                     throw new ArgumentException("Map file borked, ffuuuuuuuuuuuuuu");
                 for (int j = 0; j < width; j++)
-                    map[i + 1, j + 1] = new MapCell(line[i]);
+                    map[i + 1, j + 1] = new MapCell(line[j]);
             }
             while (true)
             {
@@ -128,12 +130,13 @@ namespace Dischord
 
         public void Update()
         {
+            /*
             for (int i = 0; i < height + 2; i++)
                 for (int j = 0; j < width + 2; j++)
                     map[i, j].clearEntities();
 
             foreach (Entity e in entities)
-                e.MapCell.addEntity(e);
+                e.MapCell.addEntity(e);*/
         }
 
         // For Testing
