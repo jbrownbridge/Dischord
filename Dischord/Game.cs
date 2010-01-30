@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using Dischord.Engine;
 
 namespace Dischord
 {
@@ -18,6 +19,11 @@ namespace Dischord
     /// </summary>
     public class Game : Microsoft.Xna.Framework.Game
     {
+        private RandyManager randyManager;
+        private TileSet tileSet;
+        public Engine.Map tileMap;
+
+
         enum ControlMode {
             menu,
             movement,
@@ -69,7 +75,14 @@ namespace Dischord
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 640;
+            graphics.PreferredBackBufferWidth = 640;
             Content.RootDirectory = "Content";
+
+            randyManager = new RandyManager(
+                this, @"Sprites\randy", 8, 3, @"..\..\..\Content\Behaviours\randy.xml"
+            );
+            this.Components.Add(randyManager);
         }
 
         /// <summary>
@@ -83,12 +96,20 @@ namespace Dischord
             // TODO: Add your initialization logic here
 
             controlMode = ControlMode.movement;
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
             characterControls = new Controls();
             rand = new Random();
             hud = new List<HudItem>();
-
+            this.Services.AddService(typeof(SpriteBatch), spriteBatch);
 
             base.Initialize();
+
+            tileSet = new TileSet(Content.Load<Texture2D>(@"Map\tiles"), 1280 / 32, 1600 / 32);
+            tileMap = new Engine.Map(@"..\..\..\Content\Map\hugemap.xml", true);
+
+            randyManager.AddSprite(
+                new Randy(new Vector2(320, 320), 220, Facing.Right, tileMap, tileSet), 12);
         }
 
         /// <summary>
@@ -96,10 +117,8 @@ namespace Dischord
         /// all of your content.
         /// </summary>
         protected override void LoadContent()
-        {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-                       
+        {                  
+            
             Texture2D enemy = Content.Load<Texture2D>("enemy");
             Texture2D obstacle = Content.Load<Texture2D>("obstacle");
             Texture2D smoke = Content.Load<Texture2D>("smoke");
@@ -129,7 +148,7 @@ namespace Dischord
             birdSong.Volume = 0.75f;
             nextBirdSong = (float)(sounds["Woods"].Duration.TotalMilliseconds) + rand.Next((int)sounds["Woods"].Duration.TotalMilliseconds);
             
-            this.map = new Map(MAP_FILE_4);
+            this.map = new Map(MAP_FILE_1);
             map.Update();
 
             // TODO: use this.Content to load your game content here
@@ -269,21 +288,31 @@ namespace Dischord
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            //GraphicsDevice.Viewport.X = Math.Min(0,randyManager.Sprites.First().Position.X - GraphicsDevice.Viewport.Width/2);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.FrontToBack, SaveStateMode.None);
             foreach (Entity entity in Entities)
             {
                 entity.Draw(gameTime);
-            }
 
-            foreach(HudItem h in hud) {
+            }
+            foreach (HudItem h in hud)
+            {
                 spriteBatch.Draw(h.Texture, new Rectangle(h.Position.X, h.Position.Y, h.Texture.Width, h.Texture.Height), Color.White);
             }
 
-            spriteBatch.End();
             // TODO: Add your drawing code here
 
+            // TODO: Add your drawing code here
+            spriteBatch.GraphicsDevice.RenderState.DepthBufferEnable = true;
+            spriteBatch.GraphicsDevice.RenderState.DepthBufferWriteEnable = true;
+            spriteBatch.GraphicsDevice.RenderState.DepthBufferFunction = CompareFunction.GreaterEqual;
+            spriteBatch.GraphicsDevice.RenderState.AlphaTestEnable = true;
+
+
+            tileMap.Draw(spriteBatch, tileSet, randyManager.Sprites.First().Position);
             base.Draw(gameTime);
+            spriteBatch.End();
         }
 
         private static Game game;

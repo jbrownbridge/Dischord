@@ -71,6 +71,8 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -88,6 +90,19 @@
     <Compile Include="Character.cs" />
     <Compile Include="Controls.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="Engine\Animation.cs" />
+    <Compile Include="Engine\AnimationManager.cs" />
+    <Compile Include="Engine\Frame.cs" />
+    <Compile Include="Engine\Map.cs" />
+    <Compile Include="Engine\Randy.cs" />
+    <Compile Include="Engine\RandyManager.cs" />
+    <Compile Include="Engine\Sprite.cs" />
+    <Compile Include="Engine\SpriteManager.cs" />
+    <Compile Include="Engine\Terrain.cs" />
+    <Compile Include="Engine\Tile.cs" />
+    <Compile Include="Engine\TileRow.cs" />
+    <Compile Include="Engine\TileSet.cs" />
+    <Compile Include="Engine\Utility.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Fire.cs" />
     <Compile Include="HudItem.cs" />

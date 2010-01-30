@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<Behaviours>
+
+   <Behaviour>
+      <Name>WalkLeft</Name>
+      <Frames>
+         <Frame Position="1" Rotation="0" Flip="Horizontal" />
+         <Frame Position="2" Rotation="0" Flip="Horizontal" />
+         <Frame Position="3" Rotation="0" Flip="Horizontal" />
+         <Frame Position="4" Rotation="0" Flip="Horizontal" />
+         <Frame Position="5" Rotation="0" Flip="Horizontal" />
+         <Frame Position="6" Rotation="0" Flip="Horizontal" />
+         <Frame Position="7" Rotation="0" Flip="Horizontal" />
+         <Frame Position="8" Rotation="0" Flip="Horizontal" />         
+      </Frames>
+   </Behaviour>
+
+   <Behaviour>
+      <Name>WalkRight</Name>
+      <Frames>
+         <Frame Position="1" Rotation="0" Flip="None" />
+         <Frame Position="2" Rotation="0" Flip="None" />
+         <Frame Position="3" Rotation="0" Flip="None" />
+         <Frame Position="4" Rotation="0" Flip="None" />
+         <Frame Position="5" Rotation="0" Flip="None" />
+         <Frame Position="6" Rotation="0" Flip="None" />
+         <Frame Position="7" Rotation="0" Flip="None" />
+         <Frame Position="8" Rotation="0" Flip="None" />         
+      </Frames>
+   </Behaviour>
+
+   <Behaviour>
+      <Name>WalkDown</Name>
+      <Frames>
+         <Frame Position="9" Rotation="0" Flip="None" />
+         <Frame Position="10" Rotation="0" Flip="None" />
+         <Frame Position="11" Rotation="0" Flip="None" />
+         <Frame Position="12" Rotation="0" Flip="None" />
+         <Frame Position="13" Rotation="0" Flip="None" />
+         <Frame Position="14" Rotation="0" Flip="None" />
+         <Frame Position="15" Rotation="0" Flip="None" />
+         <Frame Position="16" Rotation="0" Flip="None" />    
+      </Frames>
+   </Behaviour>
+
+   <Behaviour>
+      <Name>WalkUp</Name>
+      <Frames>
+         <Frame Position="17" Rotation="0" Flip="None" />
+         <Frame Position="18" Rotation="0" Flip="None" />
+         <Frame Position="19" Rotation="0" Flip="None" />
+         <Frame Position="20" Rotation="0" Flip="None" />
+         <Frame Position="21" Rotation="0" Flip="None" />
+         <Frame Position="22" Rotation="0" Flip="None" />
+         <Frame Position="23" Rotation="0" Flip="None" />
+         <Frame Position="24" Rotation="0" Flip="None" />          
+      </Frames>
+   </Behaviour>
+
+</Behaviours>
