@@ -107,7 +107,7 @@ namespace Dischord
 
         public MapCell getCell(int x, int y)
         {
-            if(x <= width && x > 0 && y <= height && y > 0)
+            if(x < width + 2 && x >= 0 && y < height + 2 && y >= 0)
                 return map[y, x];
             else
                 return null;
