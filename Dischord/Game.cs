@@ -119,6 +119,15 @@ namespace Dischord
 
         private static Game game;
 
+        public Map Map
+        {
+            get
+            {
+                return this.map;
+            }
+        }
+        private Map map;
+
         public static Game GetInstance()
         {
             if (game == null)

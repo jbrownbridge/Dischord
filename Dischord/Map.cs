@@ -21,6 +21,7 @@ namespace Dischord
             }
         }
         MapCellType type;
+        List<Entity> entities = new List<Entity>();
 
         public MapCell() {
             type = MapCellType.none;
@@ -50,12 +51,39 @@ namespace Dischord
                     throw new ArgumentException("Unexpected map cell: " + c);
             }
         }
+
+        public void clearEntities()
+        {
+            entities.Clear();
+        }
+
+        public void addEntity(Entity e)
+        {
+            entities.Add(e);
+        }
     };
 
     public class Map
     {
         private int width, height;
         private MapCell[,] map;
+        private List<Entity> entities = new List<Entity>();
+
+        public IEnumerable<Entity> Entities
+        {
+            get
+            {
+                foreach (Entity e in entities)
+                {
+                    yield return e;
+                }
+            }
+        }
+
+        public MapCell getCell(int x, int y)
+        {
+            return map[y, x];
+        }
 
         public Map(): this(0, 0) {}
 
@@ -87,7 +115,25 @@ namespace Dischord
                 for (int j = 0; j < width; j++)
                     map[i + 1, j + 1] = new MapCell(line[i]);
             }
+            while (true)
+            {
+                String line = fin.ReadLine();
+                if (String.IsNullOrEmpty(line))
+                    break;
+                entities.Add(Entity.GetInstance(line));
+            }
             fin.Close();
+            Update();
+        }
+
+        public void Update()
+        {
+            for (int i = 0; i < height + 2; i++)
+                for (int j = 0; j < width + 2; j++)
+                    map[i, j].clearEntities();
+
+            foreach (Entity e in entities)
+                e.MapCell.addEntity(e);
         }
 
         // For Testing

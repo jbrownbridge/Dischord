@@ -61,5 +61,21 @@ namespace Dischord
         {
             Sprite.Draw(destRectangle, currentFrame);
         }
+
+        public static Entity GetInstance(String data)
+        {
+            // TODO(jason)
+            throw new NotImplementedException();
+        }
+
+        public MapCell MapCell
+        {
+            get
+            {
+                int x = Position.X / Game.TILE_WIDTH;
+                int y = Position.Y / Game.TILE_HEIGHT;
+                return Game.GetInstance().Map.getCell(x + 1, y + 1);
+            }
+        }
     }
 }
