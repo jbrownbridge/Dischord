@@ -4,7 +4,7 @@
 .....
 .....
 .....
-obstacle 32 32 d
-obstacle 64 64 u
-enemy 128 32 l
-enemy 72 83 r
+Obstacle 32 32 d
+Obstacle 64 64 u
+Enemy 128 32 l
+Character 72 83 r

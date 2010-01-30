@@ -93,6 +93,7 @@ namespace Dischord
             Texture2D obstacle = Content.Load<Texture2D>("obstacle");
 
             spriteSheets["Enemy"]    = new Sprite(enemy, 128, 128, 8);
+            spriteSheets["Character"] = new Sprite(enemy, 128, 128, 8);
             spriteSheets["Obstacle"] = new Sprite(obstacle, 64, 64, 4);
 
             map = new Map(MAP_FILE_1);

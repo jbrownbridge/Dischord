@@ -55,6 +55,7 @@ namespace Dischord
                     animationTimer = 0f;
                 }
             }
+            destRectangle = new Rectangle(position.X, position.Y, Game.TILE_WIDTH, Game.TILE_HEIGHT);
         }
 
         public virtual void Draw(GameTime gameTime)
@@ -72,7 +73,14 @@ namespace Dischord
                 int x = int.Parse(tokens[1]);
                 int y = int.Parse(tokens[2]);
                 char direction = tokens[3][0];
-                if (type == "obstacle")
+
+                Type t = Type.GetType("Dischord." + type);
+                if(t != null)
+                    return (Entity)Activator.CreateInstance(t, new object[] { new Point(x, y), Game.GetInstance().GetSprite(type) });
+                else
+                    throw new ArgumentException(String.Format("Unknown entity type: {0}\n", type));
+
+                /*if (type == "obstacle")
                 {
                     return new Obstacle(new Point(x, y), Game.GetInstance().GetSprite("Obstacle"));
                 }
@@ -83,7 +91,7 @@ namespace Dischord
                 else
                 {
                     throw new ArgumentException(String.Format("Unknown entity type: {0}\n", type));
-                }
+                }*/
             }
             else
             {
