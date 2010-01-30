@@ -127,6 +127,10 @@ namespace Dischord
             height = int.Parse(lineArray[1]);
             //init(int.Parse(lineArray[0]), int.Parse(lineArray[1]));
             map = new MapCell[height + 2, width + 2];
+            for(int i = 0; i < height + 2; i++)
+                for(int j = 0; j < width + 2; j++)
+                    map[i, j] = new MapCell();
+
             for (int i = 0; i < height; i++)
             {
                 String line = fin.ReadLine();
@@ -146,15 +150,26 @@ namespace Dischord
             Update();
         }
 
+        public void Add(Entity e) {
+            entities.Add(e);
+        }
+
         public void Update()
         {
-            /*
+            
             for (int i = 0; i < height + 2; i++)
                 for (int j = 0; j < width + 2; j++)
                     map[i, j].clearEntities();
 
-            foreach (Entity e in entities)
-                e.MapCell.addEntity(e);*/
+            List<Entity> survivors = new List<Entity>();
+            
+            foreach(Entity e in entities) {
+                if(e.IsAlive) {
+                    //e.MapCell.addEntity(e);
+                    survivors.Add(e);
+                }
+            }
+            entities = survivors;
         }
 
         public void draw() {

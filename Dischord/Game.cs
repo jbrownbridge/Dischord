@@ -35,6 +35,8 @@ namespace Dischord
 
         private Dictionary<String, Sprite> spriteSheets = new Dictionary<string,Sprite>();
 
+        private Dictionary<String, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
+
         public IEnumerable<Entity> Entities
         {
             get
@@ -42,7 +44,6 @@ namespace Dischord
                 return this.Map.Entities;
             }
         }
-
 
         public SpriteBatch SpriteBatch
         {
@@ -56,6 +57,8 @@ namespace Dischord
         private ControlMode controlMode;
 
         private Controls characterControls;
+
+        private KeyboardState oldstate;
 
         public Game()
         {
@@ -98,6 +101,8 @@ namespace Dischord
 
             map = new Map(MAP_FILE_1);
 
+            sounds["fsssh3"] = Content.Load<SoundEffect>("Sounds/fsssh3");
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -110,9 +115,7 @@ namespace Dischord
             // TODO: Unload any non ContentManager content here
         }
 
-        protected virtual void HandleMovementInput() {
-            KeyboardState state = Keyboard.GetState();
-            
+        protected virtual void HandleMovementInput(KeyboardState state) {            
             // Allows the game to exit
             if(state.IsKeyDown(Keys.Escape))
                 this.Exit();
@@ -146,13 +149,17 @@ namespace Dischord
                 characterControls.Jump = true;
             else
                 characterControls.Jump = false;
+
+            if(state.IsKeyDown(Keys.Enter) && oldstate.IsKeyUp(Keys.Enter))
+                map.Add(new Source(new Point(300, 300), spriteSheets["Enemy"],0f,sounds["fsssh3"]));
+
         }
 
-        protected virtual void HandleActionInput() {
+        protected virtual void HandleActionInput(KeyboardState state) {
 
         }
 
-        protected virtual void HandleMenuInput() {
+        protected virtual void HandleMenuInput(KeyboardState state) {
 
         }
 
@@ -161,17 +168,18 @@ namespace Dischord
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime)
-        {
+        protected override void Update(GameTime gameTime) {
+            KeyboardState state = Keyboard.GetState();
+
             switch(controlMode) {
                 case ControlMode.movement:
-                    HandleMovementInput();
+                    HandleMovementInput(state);
                     break;
                 case ControlMode.action:
-                    HandleActionInput();
+                    HandleActionInput(state);
                     break;
                 case ControlMode.menu:
-                    HandleMenuInput();
+                    HandleMenuInput(state);
                     break;
             }
 
@@ -179,9 +187,12 @@ namespace Dischord
             {
                 entity.Update(gameTime);
             }
+
+            map.Update();
             // TODO: Add your update logic here
 
             base.Update(gameTime);
+            oldstate = state;
         }
 
         /// <summary>
