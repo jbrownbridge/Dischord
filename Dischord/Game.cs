@@ -14,6 +14,16 @@ using Dischord.Engine;
 
 namespace Dischord
 {
+    public enum ControlMode
+    {
+        menu,
+        movement,
+        action,
+        gameover,
+        nextlevel,
+        gamecomplete,
+    };
+    
     /// <summary>
     /// This is the main type for your game
     /// </summary>
@@ -24,20 +34,23 @@ namespace Dischord
         private TileSet tileSet;
         public Engine.Map tileMap;
         private EntityManager eManager;
+        private String[] mapLevels = { 
+            @"..\..\..\Content\Map\level1.xml",
+            @"..\..\..\Content\Map\hugemap.xml",
+        };
+        private int currentMapIndex = 0;
+
+        public ControlMode ControlMode
+        {
+            get { return this.controlMode; }
+            set { this.controlMode = value; }
+        }
 
         public EntityManager EManager {
             get {
                 return eManager;
             }
         }
-
-
-        enum ControlMode {
-            menu,
-            movement,
-            action,
-            gameover,
-        };
 
         public const int TILE_HEIGHT = 32;
         public const int TILE_WIDTH  = 32;
@@ -97,31 +110,18 @@ namespace Dischord
             this.Components.Add(randyManager);
         }
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
-        protected override void Initialize()
+        public void LoadLevel()
         {
+            String mapFileName = mapLevels[currentMapIndex++];
             // TODO: Add your initialization logic here
-
             controlMode = ControlMode.movement;
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            rand = new Random();
-            hud = new List<HudItem>();
-            this.Services.AddService(typeof(SpriteBatch), spriteBatch);
 
-            base.Initialize();
-
-            tileSet = new TileSet(Content.Load<Texture2D>(@"Map\tiles"), 1280 / 32, 1600 / 32);
-            tileMap = new Engine.Map(@"..\..\..\Content\Map\level1.xml", true);
+            tileMap = new Engine.Map(mapFileName, true);
 
             eManager = new EntityManager(tileMap.Rows, tileMap.Columns);
 
-            foreach(Vector2 pos in tileMap.GoalSpawnPoints) {
+            foreach (Vector2 pos in tileMap.GoalSpawnPoints)
+            {
                 eManager.Add(new Goal(pos));
             }
 
@@ -132,9 +132,24 @@ namespace Dischord
             {
                 mobileManager.AddSprite(new Baddie(spawn, 220, Facing.Right, tileMap, tileSet), 12);
             }
+        }
 
-            //this.map = new Map(MAP_FILE_1);
-            //map.Update();
+        /// <summary>
+        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// This is where it can query for any required services and load any non-graphic
+        /// related content.  Calling base.Initialize will enumerate through any components
+        /// and initialize them as well.
+        /// </summary>
+        protected override void Initialize()
+        {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            tileSet = new TileSet(Content.Load<Texture2D>(@"Map\tiles"), 1280 / 32, 1600 / 32);
+            rand = new Random();
+            hud = new List<HudItem>();
+            this.Services.AddService(typeof(SpriteBatch), spriteBatch);
+            base.Initialize();
+            LoadLevel();
         }
 
         /// <summary>
@@ -272,7 +287,7 @@ namespace Dischord
                 }
             }*/
             KeyboardState state = Keyboard.GetState();
-            if(controlMode != ControlMode.gameover) {
+            if(controlMode != ControlMode.gameover && controlMode != ControlMode.gamecomplete) {
                 switch(controlMode) {
                     case ControlMode.movement:
                         HandleMovementInput(state);
@@ -283,12 +298,21 @@ namespace Dischord
                     case ControlMode.menu:
                         HandleMenuInput(state);
                         break;
+                    case ControlMode.nextlevel:
+                        if (currentMapIndex < mapLevels.Length)
+                            LoadLevel();
+                        else
+                            controlMode = ControlMode.gamecomplete;
+                        break;
+                    case ControlMode.gamecomplete:
+                        break;
                 }
-
-                foreach(Entity entity in Entities) {
-                    entity.Update(gameTime);
+                if (controlMode != ControlMode.gamecomplete && controlMode != ControlMode.gameover) {
+                    foreach(Entity entity in Entities) {
+                        entity.Update(gameTime);
+                    }
+                    eManager.Update();
                 }
-                eManager.Update();
                 //map.Update();
                 // TODO: Add your update logic here
             }
