@@ -9,6 +9,7 @@ namespace Dischord.Engine
     {
         protected List<Sprite> spriteList;
         private AnimationManager animationManager;
+        protected Boolean reset;
 
         protected SpriteBatch spriteBatch;
         protected Texture2D spriteImage;
@@ -24,6 +25,7 @@ namespace Dischord.Engine
             this.columns = columns;
             this.rows = rows;
             this.behaviourPath = behaviourPath;
+            reset = false;
         }
 
         public IEnumerable<Sprite> Sprites
@@ -70,6 +72,10 @@ namespace Dischord.Engine
             sprite.Animation = new Animation(animationManager, framesPerSecond);
             sprite.Initialize();
             spriteList.Add(sprite);
+        }
+
+        public void Reset() {
+            reset = true;
         }
     }
 }

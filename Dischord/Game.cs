@@ -63,6 +63,8 @@ namespace Dischord
 
         GraphicsDeviceManager graphics;
 
+        Texture2D gameover;
+
         private Dictionary<String, Sprite> spriteSheets = new Dictionary<string,Sprite>();
 
         private Dictionary<String, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
@@ -95,6 +97,8 @@ namespace Dischord
         private Random rand;
 
         private List<HudItem> hud;
+
+        private int gameovery = -300;
 
         public Game()
         {
@@ -172,6 +176,8 @@ namespace Dischord
             Texture2D hudright = Content.Load<Texture2D>("HUD/hud-right");
             Texture2D hudbottom = Content.Load<Texture2D>("HUD/hud-bottom");
 
+            gameover = Content.Load<Texture2D>("gameover");
+
             hud.Add(new HudItem(hudleft, new Point(0, (Window.ClientBounds.Height - hudleft.Height) / 2)));
             hud.Add(new HudItem(hudright, new Point(Window.ClientBounds.Width - hudright.Width, (Window.ClientBounds.Height - hudright.Height) / 2)));
             hud.Add(new HudItem(hudtop, new Point((Window.ClientBounds.Width - hudtop.Width) / 2, 0)));
@@ -191,6 +197,7 @@ namespace Dischord
             sounds["Bird"] = Content.Load<SoundEffect>("Sounds/bird");
             sounds["Lyre"] = Content.Load<SoundEffect>("Sounds/lyre2");
             sounds["GlueTrap"] = Content.Load<SoundEffect>("Sounds/squish");
+            sounds["Death"] = Content.Load<SoundEffect>("Sounds/death2");
 
             birdSong = sounds["Bird"].CreateInstance();
             birdSong.Volume = 0.75f;
@@ -317,7 +324,10 @@ namespace Dischord
                 // TODO: Add your update logic here
             }
             else {
-
+                if(gameovery < 250)
+                    gameovery++;
+                else
+                    Exit();
             }
 
             base.Update(gameTime);
@@ -342,6 +352,8 @@ namespace Dischord
             {
                 spriteBatch.Draw(h.Texture, new Rectangle(h.Position.X, h.Position.Y, h.Texture.Width, h.Texture.Height), Color.White);
             }
+
+            spriteBatch.Draw(gameover, new Rectangle(100, gameovery, gameover.Width, gameover.Height), null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, 1);
 
             // TODO: Add your drawing code here
 
@@ -391,6 +403,11 @@ namespace Dischord
 
         public void Death() {
             controlMode = ControlMode.gameover;
+            sounds["Death"].Play();
+            this.Components.Remove(mobileManager);
+            mobileManager.Reset();
+            //randyManager.Reset();
+            eManager.Reset();
         }
 
     }

@@ -17,12 +17,16 @@ namespace Dischord.Engine
 
         public override void Update(GameTime gameTime)
         {
-            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Viewport viewport = Game.GraphicsDevice.Viewport;
+            if(!reset) {
+                float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Viewport viewport = Game.GraphicsDevice.Viewport;
 
-            foreach (Randy randy in spriteList)
-            {
-                randy.UpdatePositionAndFrame(elapsedTime, viewport);
+                foreach(Randy randy in spriteList) {
+                    randy.UpdatePositionAndFrame(elapsedTime, viewport);
+                }
+            }
+            else {
+                spriteList.Clear();
             }
         }
 
