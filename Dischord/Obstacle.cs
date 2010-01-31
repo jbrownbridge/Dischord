@@ -9,7 +9,9 @@ namespace Dischord
     public class Obstacle : Entity
     {
 
-        public Obstacle(Vector2 position, Sprite sprite) : base(position, sprite) { }
+        public Obstacle(Vector2 position, Sprite sprite, float interval) : base(position, sprite,interval) { }
+
+        public Obstacle(Vector2 position, Sprite sprite) : this(position, sprite, 0.0f) { }
 
         public override void Update(GameTime gameTime) {
             base.Update(gameTime);

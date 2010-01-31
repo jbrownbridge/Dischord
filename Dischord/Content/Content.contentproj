@@ -124,11 +124,36 @@
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Content>
+    <Content Include="Map\threetree.xml">
+      <Name>threetree</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Content>
     <Content Include="Map\walkbehindtree.xml">
       <Name>walkbehindtree</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Content>
+    <Compile Include="Sounds\steps3.wma">
+      <Name>steps3</Name>
+      <Importer>WmaImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sounds\bird.wma">
+      <Name>bird</Name>
+      <Importer>WmaImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sounds\squish.wma">
+      <Name>squish</Name>
+      <Importer>WmaImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sounds\lyre2.wma">
+      <Name>lyre2</Name>
+      <Importer>WmaImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
     <Compile Include="wall.png">
       <Name>wall</Name>
       <Importer>TextureImporter</Importer>
@@ -142,16 +167,6 @@
     <Compile Include="Sounds\crackle.wma">
       <Name>crackle</Name>
       <Importer>WmaImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Sounds\walk.wav">
-      <Name>walk</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Sounds\woods.wav">
-      <Name>woods</Name>
-      <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
     <Compile Include="Map\tileset.png">

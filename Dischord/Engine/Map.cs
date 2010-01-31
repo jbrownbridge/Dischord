@@ -279,7 +279,7 @@ namespace Dischord.Engine
                     if (walkable[i - 1, rightTile - 1] == 0)
                     {
                         sprite.Movement = new Vector2(
-                            Utility.TileToPixel(leftTile, tileSet.TileWidth) -
+                            Utility.TileToPixel(rightTile-1, tileSet.TileWidth) -
                             sprite.Animation.AnimationManager.Origin.X - sprite.Position.X, 0
                         );
                         break;
@@ -311,7 +311,7 @@ namespace Dischord.Engine
                     {
                         sprite.Movement = new Vector2(
                             0, 
-                            Utility.TileToPixel(topTile, tileSet.TileHeight) -
+                            Utility.TileToPixel(bottomTile-1, tileSet.TileHeight) -
                             sprite.Animation.AnimationManager.Origin.Y - sprite.Position.Y
                         );
                         break;

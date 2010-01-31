@@ -13,6 +13,9 @@ namespace Dischord.Engine
         private Vector2 renderPos;
         private Boolean moving;
         private Character character;
+        private float nextGlue;
+        private float nextLyre;
+        private float nextFire;
 
         protected SoundEffectInstance walkingSound;
         protected float walkingSoundDuration;
@@ -21,6 +24,22 @@ namespace Dischord.Engine
             get {
                 return renderPos;
             }
+        }
+
+        public void useGlue() {
+            Game.GetInstance().EManager.Add(new GlueTrap(Position, Game.GetInstance().GetSprite("GlueTrap")));
+            Game.GetInstance().EManager.Add(new SoundSource(Position, Game.GetInstance().GetSound("GlueTrap"),0));
+            nextGlue = 20000f;
+        }
+
+        public void useLyre() {
+            Game.GetInstance().EManager.Add(new SoundSource(Position, Game.GetInstance().GetSound("Lyre"),12));
+            nextLyre = 5000f;
+        }
+
+        public void useFire() {
+            Game.GetInstance().EManager.Add(new Fire(Position, 6000f));
+            nextFire = 25000f;
         }
 
         public Randy(Vector2 position, float maxSpeed, Facing facing, Map map, TileSet tileSet) : base(position, maxSpeed, facing,map,tileSet) {
@@ -35,6 +54,10 @@ namespace Dischord.Engine
             moving = false;
             character = new Character(Position);
             Game.GetInstance().EManager.Add(character);
+            nextLyre = 0;
+            nextGlue = 0;
+            nextFire = 0;
+            Game.GetInstance().EManager.Add(new Goal(Position));
         }
 
         public override void Initialize()
@@ -64,7 +87,7 @@ namespace Dischord.Engine
 
                 //Restart the sound if it has finished
                 if(walkingSound.State == SoundState.Stopped)
-                    Game.GetInstance().EManager.Add(new SoundSource(new Vector2(Position.X,Position.Y), walkingSound, walkingSoundDuration, 1));
+                    Game.GetInstance().EManager.Add(new SoundSource(Position, walkingSound, walkingSoundDuration, 1));
 
                 moving = true;
             }

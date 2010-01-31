@@ -111,7 +111,7 @@ namespace Dischord
             {
                 Engine.TileSet tileSet = Game.GetInstance().GetTileSet();
                 int x = (int)(Position.X / tileSet.TileWidth);
-                int y = (int)(Position.Y / tileSet.TileWidth);
+                int y = (int)(Position.Y / tileSet.TileHeight);
                 return Game.GetInstance().EManager.GetCell(x,y);
             }
         }

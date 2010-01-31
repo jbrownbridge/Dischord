@@ -55,6 +55,8 @@ namespace Dischord.Engine {
         }
 
         public Cell GetCell(int x, int y) {
+            if(x < 0 || x >= columns || y < 0 || y >= rows)
+                return null;
             return cells[y, x];
         }
 
