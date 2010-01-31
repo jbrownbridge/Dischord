@@ -64,8 +64,8 @@ namespace Dischord
 
         GraphicsDeviceManager graphics;
 
-        Texture2D gameover, opening, instructions;
-        float opening_layer = 1.0f, instructions_layer = 0.9f, nextMenuTime = 5.0f;
+        Texture2D gameover, opening, instructions, congrats;
+        float opening_layer = 1.0f, instructions_layer = 0.9f, nextMenuTime = 5.0f, congrats_layer = 0.0f, congratsTimer = 10f;
 
         private Dictionary<String, Sprite> spriteSheets = new Dictionary<string,Sprite>();
 
@@ -197,6 +197,7 @@ namespace Dischord
             gameover = Content.Load<Texture2D>("gameover");
             opening = Content.Load<Texture2D>("opening");
             instructions = Content.Load<Texture2D>("instructions");
+            congrats = Content.Load<Texture2D>("congrats");
 
             hud.Add(new HudItem(hudleft, new Point(0, (Window.ClientBounds.Height - hudleft.Height) / 2)));
             hud.Add(new HudItem(hudright, new Point(Window.ClientBounds.Width - hudright.Width, (Window.ClientBounds.Height - hudright.Height) / 2)));
@@ -293,7 +294,7 @@ namespace Dischord
                 nextBirdSong = (float)(sounds["Bird"].Duration.TotalMilliseconds * 1.5) + rand.Next((int)sounds["Bird"].Duration.TotalMilliseconds);
             }
             KeyboardState state = Keyboard.GetState();
-            if(controlMode != ControlMode.gameover && controlMode != ControlMode.gamecomplete) {
+            if(controlMode != ControlMode.gameover) {
                 switch(controlMode) {
                     case ControlMode.movement:
                         HandleMovementInput(state);
@@ -314,9 +315,23 @@ namespace Dischord
                             LoadLevel();
                         }
                         else
+                        {
                             controlMode = ControlMode.gamecomplete;
+                            congrats_layer = 1f;
+                        }
                         break;
                     case ControlMode.gamecomplete:
+                        if (congratsTimer > 0)
+                            congratsTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        else
+                        {
+                            congratsTimer = 10;
+                            congrats_layer = 0;
+                            controlMode = ControlMode.movement;
+                            currentMapIndex = 0;
+                            LoadLevel();
+                        }
+
                         break;
                 }
                 if (controlMode != ControlMode.gamecomplete && controlMode != ControlMode.gameover) {
@@ -364,6 +379,7 @@ namespace Dischord
             spriteBatch.Draw(gameover, new Rectangle(100, gameovery, gameover.Width, gameover.Height), null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, 1);
             spriteBatch.Draw(opening, new Rectangle(0, 0, opening.Width, opening.Height), null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, opening_layer);
             spriteBatch.Draw(instructions, new Rectangle(0, 0, instructions.Width, instructions.Height), null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, instructions_layer);
+            spriteBatch.Draw(congrats, new Rectangle(0, 0, congrats.Width, congrats.Height), null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, congrats_layer);
 
             // TODO: Add your drawing code here
 
