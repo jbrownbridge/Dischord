@@ -170,6 +170,7 @@ namespace Dischord
             hud = new List<HudItem>();
             this.Services.AddService(typeof(SpriteBatch), spriteBatch);
             base.Initialize();
+            //controlMode = ControlMode.movement;
             LoadLevel();
         }
 
@@ -308,7 +309,10 @@ namespace Dischord
                         mobileManager.Reset();
                         eManager.Reset();
                         if (currentMapIndex < mapLevels.Length)
+                        {
+                            controlMode = ControlMode.movement;
                             LoadLevel();
+                        }
                         else
                             controlMode = ControlMode.gamecomplete;
                         break;
@@ -329,6 +333,7 @@ namespace Dischord
                 {
                     gameovery = -300;
                     currentMapIndex = 0;
+                    controlMode = ControlMode.movement;
                     LoadLevel();
                 }
             }
