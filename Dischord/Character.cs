@@ -24,5 +24,13 @@ namespace Dischord
         public override void Draw(GameTime gameTime) {
             //base.Draw(gameTime);
         }
+
+        public bool God
+        {
+            get
+            {
+                return true;
+            }
+        }
     }
 }

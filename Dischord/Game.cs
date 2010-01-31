@@ -36,7 +36,7 @@ namespace Dischord
         private EntityManager eManager;
         private String[] mapLevels = { 
             @"..\..\..\Content\Map\level1.xml",
-            @"..\..\..\Content\Map\hugemap.xml",
+            @"..\..\..\Content\Map\level2.xml",
         };
         private int currentMapIndex = 0;
 
@@ -106,16 +106,24 @@ namespace Dischord
             graphics.PreferredBackBufferHeight = 640;
             graphics.PreferredBackBufferWidth = 640;
             Content.RootDirectory = "Content";
+        }
+
+        public void LoadLevel()
+        {
+            if (randyManager != null)
+            {
+                this.Components.Remove(randyManager);
+            }
+            if (mobileManager != null) {
+                this.Components.Remove(mobileManager);
+            }
 
             mobileManager = new MobileManager(this, @"Sprites\randy", 8, 3, @"..\..\..\Content\Behaviours\randy.xml");
             this.Components.Add(mobileManager);
 
             randyManager = new RandyManager(this, @"Sprites\randy", 8, 3, @"..\..\..\Content\Behaviours\randy.xml");
             this.Components.Add(randyManager);
-        }
 
-        public void LoadLevel()
-        {
             String mapFileName = mapLevels[currentMapIndex++];
             // TODO: Add your initialization logic here
             controlMode = ControlMode.movement;
@@ -261,38 +269,6 @@ namespace Dischord
                 birdSong.Play();
                 nextBirdSong = (float)(sounds["Bird"].Duration.TotalMilliseconds * 1.5) + rand.Next((int)sounds["Bird"].Duration.TotalMilliseconds);
             }
-            //map.draw();
-            /*
-             * AI Code
-             */
-
-            /*foreach (Entity e in eManager.Entities) {
-                if (e is Enemy)
-                {
-                    Direction d = ai.findPath(map, e.Position, e as Enemy);
-                    (e as Enemy).move(d);
-                    //if (e.Cell.Type != MapCell.MapCellType.floor)
-                    //{
-                        switch (d)
-                        {
-                            case Direction.up:
-                                d = Direction.down;
-                                break;
-                            case Direction.down:
-                                d = Direction.up;
-                                break;
-                            case Direction.left:
-                                d = Direction.right;
-                                break;
-                            case Direction.right:
-                                d = Direction.left;
-                                break;
-                        }
-                        (e as Enemy).move(d);
-                        (e as Enemy).Wait = 50;
-                    //}
-                }
-            }*/
             KeyboardState state = Keyboard.GetState();
             if(controlMode != ControlMode.gameover && controlMode != ControlMode.gamecomplete) {
                 switch(controlMode) {
@@ -306,6 +282,8 @@ namespace Dischord
                         HandleMenuInput(state);
                         break;
                     case ControlMode.nextlevel:
+                        mobileManager.Reset();
+                        eManager.Reset();
                         if (currentMapIndex < mapLevels.Length)
                             LoadLevel();
                         else
@@ -320,14 +298,13 @@ namespace Dischord
                     }
                     eManager.Update();
                 }
-                //map.Update();
-                // TODO: Add your update logic here
             }
             else {
                 if (gameovery < 250)
                     gameovery++;
                 else
                 {
+                    gameovery = -300;
                     currentMapIndex = 0;
                     LoadLevel();
                 }

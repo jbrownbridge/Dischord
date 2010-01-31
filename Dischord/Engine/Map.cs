@@ -15,7 +15,8 @@ namespace Dischord.Engine
         public const int ABOVE_PLAYER_LAYER_START   = 8;
         public const int ENTITY_LAYER               = 9;
         public const int PLAYER_START_TILE_CODE     = 83;
-        public const int ENEMEY_SPAWN_TILE_CODE     = 60;
+        public const int ENEMEY_SPAWN_TILE_CODE1    = 60;
+        public const int ENEMEY_SPAWN_TILE_CODE2    = 44;
         public const int GOAL_SPAWN_TILE_POINT      = 84;
 
         private int columns;
@@ -74,7 +75,8 @@ namespace Dischord.Engine
                         {
                             switch (tileCode)
                             {
-                                case Map.ENEMEY_SPAWN_TILE_CODE:
+                                case Map.ENEMEY_SPAWN_TILE_CODE1:
+                                case Map.ENEMEY_SPAWN_TILE_CODE2:
                                     tileCode = Map.TRANSPARENT_INDEX;
                                     this.enemySpawnPoints.Add(new Vector2(x * tileSize, y * tileSize));
                                     break;

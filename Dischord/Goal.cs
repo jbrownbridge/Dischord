@@ -13,5 +13,11 @@ namespace Dischord {
         public override void Update(GameTime gameTime) {
             base.Update(gameTime);
         }
+
+        public override void PlayerCollision(Character character)
+        {
+            base.PlayerCollision(character);
+            Game.GetInstance().ControlMode = ControlMode.nextlevel;
+        }
     }
 }

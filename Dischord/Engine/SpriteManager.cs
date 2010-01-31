@@ -26,6 +26,12 @@ namespace Dischord.Engine
             this.rows = rows;
             this.behaviourPath = behaviourPath;
             reset = false;
+            spriteList = new List<Sprite>();
+            spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
+            spriteImage = Game.Content.Load<Texture2D>(imagePath);
+            animationManager = new AnimationManager(
+                spriteImage, columns, rows, behaviourPath
+            );
         }
 
         public IEnumerable<Sprite> Sprites
@@ -50,18 +56,12 @@ namespace Dischord.Engine
         public override void Initialize()
         {
             base.Initialize();
-
-            spriteList = new List<Sprite>();
-            animationManager = new AnimationManager(
-                spriteImage, columns, rows, behaviourPath
-            );
         }
 
         protected override void LoadContent()
         {
             base.LoadContent();
-            spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
-            spriteImage = Game.Content.Load<Texture2D>(imagePath);
+        
         }
 
         public abstract override void Update(GameTime gameTime);

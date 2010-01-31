@@ -57,7 +57,7 @@ namespace Dischord.Engine {
                         blind = true;
                         break;
                     }
-                    if(e is Character) {
+                    if(e is Character && !(e as Character).God ) {
                         Game.GetInstance().Death();
                     }
                 }
