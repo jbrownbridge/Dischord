@@ -380,7 +380,7 @@ namespace Dischord
         public void Death() {
             controlMode = ControlMode.gameover;
             sounds["Death"].Play();
-            this.Components.Remove(mobileManager);
+            //this.Components.Remove(mobileManager);
             mobileManager.Reset();
             //randyManager.Reset();
             eManager.Reset();
