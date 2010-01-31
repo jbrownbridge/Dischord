@@ -27,6 +27,7 @@ namespace Dischord.Engine
             }
             else {
                 spriteList.Clear();
+                reset = false;
             }
         }
 
