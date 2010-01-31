@@ -22,6 +22,7 @@ namespace Dischord
         gameover,
         nextlevel,
         gamecomplete,
+        intro,
     };
     
     /// <summary>
@@ -63,7 +64,8 @@ namespace Dischord
 
         GraphicsDeviceManager graphics;
 
-        Texture2D gameover;
+        Texture2D gameover, opening, instructions;
+        float opening_layer = 1.0f, instructions_layer = 0.9f, nextMenuTime = 5.0f;
 
         private Dictionary<String, Sprite> spriteSheets = new Dictionary<string,Sprite>();
 
@@ -102,6 +104,7 @@ namespace Dischord
 
         public Game()
         {
+            controlMode = ControlMode.intro;
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferHeight = 640;
             graphics.PreferredBackBufferWidth = 640;
@@ -126,7 +129,13 @@ namespace Dischord
 
             String mapFileName = mapLevels[currentMapIndex++];
             // TODO: Add your initialization logic here
-            controlMode = ControlMode.movement;
+            //controlMode = ControlMode.movement;
+            // Create a new SpriteBatch, which can be used to draw textures.
+            /*
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            rand = new Random();
+            hud = new List<HudItem>();
+            this.Services.AddService(typeof(SpriteBatch), spriteBatch);*/
 
             tileMap = new Engine.Map(mapFileName, true);
 
@@ -185,6 +194,8 @@ namespace Dischord
             Texture2D hudbottom = Content.Load<Texture2D>("HUD/hud-bottom");
 
             gameover = Content.Load<Texture2D>("gameover");
+            opening = Content.Load<Texture2D>("opening");
+            instructions = Content.Load<Texture2D>("instructions");
 
             hud.Add(new HudItem(hudleft, new Point(0, (Window.ClientBounds.Height - hudleft.Height) / 2)));
             hud.Add(new HudItem(hudright, new Point(Window.ClientBounds.Width - hudright.Width, (Window.ClientBounds.Height - hudright.Height) / 2)));
@@ -255,7 +266,23 @@ namespace Dischord
         }
 
         protected virtual void HandleMenuInput(KeyboardState state) {
+            if(state.IsKeyDown(Keys.Enter) && oldstate.IsKeyUp(Keys.Enter) && opening_layer == 1.0f) {
+                opening_layer = 0.0f;
+            }
+            else if(state.IsKeyDown(Keys.Enter) && oldstate.IsKeyUp(Keys.Enter) && opening_layer != 1.0f) {
+                instructions_layer = 0.0f;
+                controlMode = ControlMode.movement;
+            }
 
+            if(nextMenuTime < 0 && opening_layer == 1.0f) {
+                opening_layer = 0.0f;
+                nextMenuTime = 5.0f;
+            }
+            
+            if(nextMenuTime < 0 && opening_layer != 1.0f) {
+                instructions_layer = 0.0f;
+                controlMode = ControlMode.movement;
+            }
         }
 
         /// <summary>
@@ -278,7 +305,8 @@ namespace Dischord
                     case ControlMode.action:
                         HandleActionInput(state);
                         break;
-                    case ControlMode.menu:
+                    case ControlMode.intro:
+                        nextMenuTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
                         HandleMenuInput(state);
                         break;
                     case ControlMode.nextlevel:
@@ -334,6 +362,8 @@ namespace Dischord
             }
 
             spriteBatch.Draw(gameover, new Rectangle(100, gameovery, gameover.Width, gameover.Height), null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, 1);
+            spriteBatch.Draw(opening, new Rectangle(0, 0, opening.Width, opening.Height), null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, opening_layer);
+            spriteBatch.Draw(instructions, new Rectangle(0, 0, instructions.Width, instructions.Height), null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, instructions_layer);
 
             // TODO: Add your drawing code here
 
