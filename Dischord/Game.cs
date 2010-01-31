@@ -116,14 +116,17 @@ namespace Dischord
             base.Initialize();
 
             tileSet = new TileSet(Content.Load<Texture2D>(@"Map\tiles"), 1280 / 32, 1600 / 32);
-            tileMap = new Engine.Map(@"..\..\..\Content\Map\threetree.xml", true);
+            tileMap = new Engine.Map(@"..\..\..\Content\Map\level1.xml", true);
 
             eManager = new EntityManager(tileMap.Rows, tileMap.Columns);
 
-            character = new Randy(new Vector2(320, 320), 220, Facing.Right, tileMap, tileSet);
+            character = new Randy(tileMap.PlayerSpawnPoint, 220, Facing.Right, tileMap, tileSet);
 
             randyManager.AddSprite(character, 12);
-            mobileManager.AddSprite(new Baddie(new Vector2(640, 640), 220, Facing.Right, tileMap, tileSet), 12);
+            foreach (Vector2 spawn in tileMap.EnemySpawnPoints)
+            {
+                mobileManager.AddSprite(new Baddie(spawn, 220, Facing.Right, tileMap, tileSet), 12);
+            }
 
             //this.map = new Map(MAP_FILE_1);
             //map.Update();

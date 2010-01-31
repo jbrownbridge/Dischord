@@ -57,19 +57,20 @@ namespace Dischord.Engine
                 terrainList.Add(lastTerrainAdded);
 
                 XmlNodeList tileRows = terrain.SelectNodes("RowInfo");
-
+                y = 0;
                 foreach (XmlNode tileRow in tileRows)
                 {
                     lastTileRowAdded = new TileRow();
                     lastTerrainAdded.TileRowList.Add(lastTileRowAdded);
 
                     String[] tiles = tileRow.FirstChild.Value.Split(',');
+                    x = 0;
                     foreach (String tile in tiles)
                     {
                         int tileCode = int.Parse(tile);
                         if (tileCode == -1)
                             tileCode = Map.TRANSPARENT_INDEX;
-                        /*if (int.Parse(tileRow.Attributes["Id"].Value) == Map.ENTITY_LAYER)
+                        if (int.Parse(terrain.Attributes["Id"].Value) == Map.ENTITY_LAYER)
                         {
                             switch (tileCode)
                             {
@@ -86,9 +87,11 @@ namespace Dischord.Engine
                                     this.playerSpawnPoint = new Vector2(x * tileSize, y * tileSize);
                                     break;
                             }
-                        }*/
+                        }
                         lastTileRowAdded.TileList.Add(new Tile(tileCode, 0));
+                        x++;
                     }
+                    y++;
                 }
                 //break;
             }
