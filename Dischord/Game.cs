@@ -44,6 +44,8 @@ namespace Dischord
         public const String MAP_FILE_2 = "maps/simple2.map";
         public const String MAP_FILE_3 = "maps/simple3.map";
         public const String MAP_FILE_4 = "maps/simple4.map";
+        public const String MAP_FILE_5 = "maps/large1.map";
+        public const String MAP_FILE_6 = "maps/large_sparse.map";
 
         GraphicsDeviceManager graphics;
 
@@ -121,7 +123,7 @@ namespace Dischord
             character = new Randy(new Vector2(320, 320), 220, Facing.Right, tileMap, tileSet);
 
             randyManager.AddSprite(character, 12);
-            mobileManager.AddSprite(new Baddie(new Vector2(320, 560), 220, Facing.Right, tileMap, tileSet), 12);
+            mobileManager.AddSprite(new Baddie(new Vector2(640, 640), 220, Facing.Right, tileMap, tileSet), 12);
 
             //this.map = new Map(MAP_FILE_1);
             //map.Update();
@@ -162,12 +164,14 @@ namespace Dischord
             spriteSheets["Wall"] = new Sprite(wall, 32, 32, 1);
             
             sounds["Crackle"] = Content.Load<SoundEffect>("Sounds/crackle");
-            sounds["Walk"] = Content.Load<SoundEffect>("Sounds/walk");
-            sounds["Woods"] = Content.Load<SoundEffect>("Sounds/woods");
+            sounds["Walk"] = Content.Load<SoundEffect>("Sounds/steps3");
+            sounds["Bird"] = Content.Load<SoundEffect>("Sounds/bird");
+            sounds["Lyre"] = Content.Load<SoundEffect>("Sounds/lyre2");
+            sounds["GlueTrap"] = Content.Load<SoundEffect>("Sounds/squish");
 
-            birdSong = sounds["Woods"].CreateInstance();
+            birdSong = sounds["Bird"].CreateInstance();
             birdSong.Volume = 0.75f;
-            nextBirdSong = (float)(sounds["Woods"].Duration.TotalMilliseconds) + rand.Next((int)sounds["Woods"].Duration.TotalMilliseconds);
+            nextBirdSong = (float)(sounds["Bird"].Duration.TotalMilliseconds) + rand.Next((int)sounds["Bird"].Duration.TotalMilliseconds);
 
             // TODO: use this.Content to load your game content here
         }
@@ -197,11 +201,14 @@ namespace Dischord
             else
                 character.SetDirection(Mobile.Direction.Stand);
 
-            if(state.IsKeyDown(Keys.Space) && oldstate.IsKeyUp(Keys.Space))
-                eManager.Add(new Fire(character.Position, 6000f));
+            if(state.IsKeyDown(Keys.LeftAlt) && oldstate.IsKeyUp(Keys.LeftAlt))
+                character.useFire();
 
-            if(state.IsKeyDown(Keys.Enter) && oldstate.IsKeyUp(Keys.Enter))
-                eManager.Add(new GlueTrap(character.Position, spriteSheets["GlueTrap"]));
+            if(state.IsKeyDown(Keys.LeftControl) && oldstate.IsKeyUp(Keys.LeftControl))
+                character.useGlue();
+
+            if(state.IsKeyDown(Keys.Space) && oldstate.IsKeyUp(Keys.Space))
+                character.useLyre();
 
         }
 
@@ -222,7 +229,7 @@ namespace Dischord
             nextBirdSong -= gameTime.ElapsedGameTime.Milliseconds;
             if(nextBirdSong < 0) {
                 birdSong.Play();
-                nextBirdSong = (float)(sounds["Woods"].Duration.TotalMilliseconds * 2) + rand.Next((int)sounds["Woods"].Duration.TotalMilliseconds);
+                nextBirdSong = (float)(sounds["Bird"].Duration.TotalMilliseconds * 1.5) + rand.Next((int)sounds["Bird"].Duration.TotalMilliseconds);
             }
             //map.draw();
             /*
@@ -232,9 +239,7 @@ namespace Dischord
             /*foreach (Entity e in eManager.Entities) {
                 if (e is Enemy)
                 {
-                    int x = (int)e.Position.X / tileSet.TileWidth;
-                    int y = (int)e.Position.Y / tileSet.TileHeight;
-                    Direction d = ai.findPath(map, new Vector2(x, y), e as Enemy);
+                    Direction d = ai.findPath(map, e.Position, e as Enemy);
                     (e as Enemy).move(d);
                     //if (e.Cell.Type != MapCell.MapCellType.floor)
                     //{
@@ -321,15 +326,6 @@ namespace Dischord
         }
 
         private static Game game;
-
-        public Map Map
-        {
-            get
-            {
-                return this.map;
-            }
-        }
-        private Map map;
 
         public static Game GetInstance()
         {
