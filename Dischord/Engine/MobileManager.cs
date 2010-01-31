@@ -10,11 +10,16 @@ namespace Dischord.Engine {
         public MobileManager(Game game, string imagePath, int columns, int rows, string behaviourPath) : base(game, imagePath, columns, rows, behaviourPath) { }
 
         public override void Update(GameTime gameTime) {
-            float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Viewport viewport = Game.GraphicsDevice.Viewport;
+            if(!reset) {
+                float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Viewport viewport = Game.GraphicsDevice.Viewport;
 
-            foreach(Mobile mobile in spriteList) {
-                mobile.UpdatePositionAndFrame(elapsedTime, viewport);
+                foreach(Mobile mobile in spriteList) {
+                    mobile.UpdatePositionAndFrame(elapsedTime, viewport);
+                }
+            }
+            else {
+                spriteList.Clear();
             }
         }
 

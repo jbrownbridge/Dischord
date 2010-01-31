@@ -58,7 +58,7 @@ namespace Dischord.Engine {
                         break;
                     }
                     if(e is Character) {
-
+                        Game.GetInstance().Death();
                     }
                 }
 

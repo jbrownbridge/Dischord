@@ -100,5 +100,10 @@ namespace Dischord.Engine {
 
             entities = survivors;
         }
+
+        public void Reset() {
+            entities.Clear();
+            additions.Clear();
+        }
     }
 }
