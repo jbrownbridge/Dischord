@@ -37,6 +37,7 @@ namespace Dischord
             movement,
             action,
             gameover,
+            intro,
         };
 
         public const int TILE_HEIGHT = 32;
@@ -50,7 +51,8 @@ namespace Dischord
 
         GraphicsDeviceManager graphics;
 
-        Texture2D gameover;
+        Texture2D gameover, opening, instructions;
+        float opening_layer = 1.0f, instructions_layer = 0.9f, nextMenuTime = 5.0f;
 
         private Dictionary<String, Sprite> spriteSheets = new Dictionary<string,Sprite>();
 
@@ -89,6 +91,7 @@ namespace Dischord
 
         public Game()
         {
+            controlMode = ControlMode.intro;
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferHeight = 640;
             graphics.PreferredBackBufferWidth = 640;
@@ -111,7 +114,7 @@ namespace Dischord
         {
             // TODO: Add your initialization logic here
 
-            controlMode = ControlMode.movement;
+            //controlMode = ControlMode.movement;
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             rand = new Random();
@@ -162,6 +165,8 @@ namespace Dischord
             Texture2D hudbottom = Content.Load<Texture2D>("HUD/hud-bottom");
 
             gameover = Content.Load<Texture2D>("gameover");
+            opening = Content.Load<Texture2D>("opening");
+            instructions = Content.Load<Texture2D>("instructions");
 
             hud.Add(new HudItem(hudleft, new Point(0, (Window.ClientBounds.Height - hudleft.Height) / 2)));
             hud.Add(new HudItem(hudright, new Point(Window.ClientBounds.Width - hudright.Width, (Window.ClientBounds.Height - hudright.Height) / 2)));
@@ -232,7 +237,23 @@ namespace Dischord
         }
 
         protected virtual void HandleMenuInput(KeyboardState state) {
+            if(state.IsKeyDown(Keys.Enter) && oldstate.IsKeyUp(Keys.Enter) && opening_layer == 1.0f) {
+                opening_layer = 0.0f;
+            }
+            else if(state.IsKeyDown(Keys.Enter) && oldstate.IsKeyUp(Keys.Enter) && opening_layer != 1.0f) {
+                instructions_layer = 0.0f;
+                controlMode = ControlMode.movement;
+            }
 
+            if(nextMenuTime < 0 && opening_layer == 1.0f) {
+                opening_layer = 0.0f;
+                nextMenuTime = 5.0f;
+            }
+            
+            if(nextMenuTime < 0 && opening_layer != 1.0f) {
+                instructions_layer = 0.0f;
+                controlMode = ControlMode.movement;
+            }
         }
 
         /// <summary>
@@ -246,38 +267,7 @@ namespace Dischord
                 birdSong.Play();
                 nextBirdSong = (float)(sounds["Bird"].Duration.TotalMilliseconds * 1.5) + rand.Next((int)sounds["Bird"].Duration.TotalMilliseconds);
             }
-            //map.draw();
-            /*
-             * AI Code
-             */
 
-            /*foreach (Entity e in eManager.Entities) {
-                if (e is Enemy)
-                {
-                    Direction d = ai.findPath(map, e.Position, e as Enemy);
-                    (e as Enemy).move(d);
-                    //if (e.Cell.Type != MapCell.MapCellType.floor)
-                    //{
-                        switch (d)
-                        {
-                            case Direction.up:
-                                d = Direction.down;
-                                break;
-                            case Direction.down:
-                                d = Direction.up;
-                                break;
-                            case Direction.left:
-                                d = Direction.right;
-                                break;
-                            case Direction.right:
-                                d = Direction.left;
-                                break;
-                        }
-                        (e as Enemy).move(d);
-                        (e as Enemy).Wait = 50;
-                    //}
-                }
-            }*/
             KeyboardState state = Keyboard.GetState();
             if(controlMode != ControlMode.gameover) {
                 switch(controlMode) {
@@ -287,7 +277,8 @@ namespace Dischord
                     case ControlMode.action:
                         HandleActionInput(state);
                         break;
-                    case ControlMode.menu:
+                    case ControlMode.intro:
+                        nextMenuTime -= (float)gameTime.ElapsedGameTime.TotalSeconds;
                         HandleMenuInput(state);
                         break;
                 }
@@ -330,6 +321,8 @@ namespace Dischord
             }
 
             spriteBatch.Draw(gameover, new Rectangle(100, gameovery, gameover.Width, gameover.Height), null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, 1);
+            spriteBatch.Draw(opening, new Rectangle(0, 0, opening.Width, opening.Height), null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, opening_layer);
+            spriteBatch.Draw(instructions, new Rectangle(0, 0, instructions.Width, instructions.Height), null, Color.White, 0.0f, new Vector2(0, 0), SpriteEffects.None, instructions_layer);
 
             // TODO: Add your drawing code here
 
