@@ -6,6 +6,6 @@ using Microsoft.Xna.Framework;
 
 namespace Dischord {
     class Wall : StaticEntity {
-        public Wall(Point position) : base(position, Game.GetInstance().GetSprite("Wall")) { }
+        public Wall(Vector2 position) : base(position, Game.GetInstance().GetSprite("Wall")) { }
     }
 }

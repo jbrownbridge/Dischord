@@ -9,29 +9,29 @@ namespace Dischord
 {
     public abstract class Entity
     {
-        public Entity(Point position, Sprite sprite, float animationInterval)
+        public Entity(Vector2 position, Sprite sprite, float animationInterval)
         {
             this.position           = position;
             this.sprite             = sprite;
             this.animationInterval  = animationInterval;
             this.currentFrame       = 0;
             this.animationTimer     = 0.0f;
-            this.destRectangle      = new Rectangle(position.X, position.Y, Game.TILE_WIDTH, Game.TILE_HEIGHT);
+            this.destRectangle      = new Rectangle((int)position.X, (int)position.Y, Game.TILE_WIDTH, Game.TILE_HEIGHT);
             this.moving             = false;
             this.isAlive            = true;
             this.facing = 5;
         }
 
-        public Entity(Point position, Sprite sprite) : this(position, sprite, 0.0f) {}
+        public Entity(Vector2 position, Sprite sprite) : this(position, sprite, 0.0f) {}
 
-        public Point Position
+        public Vector2 Position
         {
             get
             {
                 return position;
             }
         }
-        protected Point position;
+        protected Vector2 position;
 
         public Sprite Sprite
         {
@@ -67,7 +67,7 @@ namespace Dischord
                         animationTimer = 0f;
                     }
                 }
-                destRectangle = new Rectangle(position.X, position.Y, Game.TILE_WIDTH, Game.TILE_HEIGHT);
+                destRectangle = new Rectangle((int)position.X, (int)position.Y, Game.TILE_WIDTH, Game.TILE_HEIGHT);
             }
         }
 
@@ -105,13 +105,14 @@ namespace Dischord
             }
         }
 
-        public MapCell MapCell
+        public Engine.Cell Cell
         {
             get
             {
-                int x = Position.X / Game.TILE_WIDTH;
-                int y = Position.Y / Game.TILE_HEIGHT;
-                return Game.GetInstance().Map.getCell(x + 1, y + 1);
+                Engine.TileSet tileSet = Game.GetInstance().GetTileSet();
+                int x = (int)(Position.X / tileSet.TileWidth);
+                int y = (int)(Position.Y / tileSet.TileWidth);
+                return Game.GetInstance().EManager.GetCell(x,y);
             }
         }
 

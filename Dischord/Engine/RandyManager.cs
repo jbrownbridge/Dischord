@@ -8,11 +8,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Dischord.Engine
 {    
-    public class RandyManager : SpriteManager
+    public class RandyManager : MobileManager
     {
         public RandyManager(
-            Game game, string imagePath, int columns, int rows, string behaviourPath)
-            : base(game, imagePath, columns, rows, behaviourPath)
+            Game game, string imagePath, int columns, int rows, string behaviourPath) : base(game, imagePath, columns, rows, behaviourPath)
         {
         }
 

@@ -10,7 +10,8 @@ namespace Dischord {
         private float traptime;
         private Enemy target;
 
-        public GlueTrap(Point position,Sprite sprite) : base(position,sprite) {
+        public GlueTrap(Vector2 position, Sprite sprite)
+            : base(position, sprite) {
             triggered = false;
             traptime = 8000f;
         }

@@ -8,12 +8,12 @@ namespace Dischord
 {
     public class Obstacle : Entity
     {
-        
-        public Obstacle(Point position, Sprite sprite) : base(position, sprite) { }
+
+        public Obstacle(Vector2 position, Sprite sprite) : base(position, sprite) { }
 
         public override void Update(GameTime gameTime) {
             base.Update(gameTime);
-            foreach(Entity e in base.MapCell.Entities) {
+            foreach(Entity e in base.Cell.Entities) {
                 if(e is Character)
                     PlayerCollision((e as Character));
                 else if(e is Enemy)

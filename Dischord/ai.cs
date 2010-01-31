@@ -17,22 +17,22 @@ namespace Dischord
     public class PQEntry
     {
         public int cost, heuristic;
-        public Point pos;
+        public Vector2 pos;
 
-        public PQEntry(int cost, Point pos, Point target)
+        public PQEntry(int cost, Vector2 pos, Vector2 target)
         {
             this.cost = cost;
             this.pos = pos;
-            this.heuristic = cost + Math.Abs(pos.X - target.X) + Math.Abs(pos.Y - target.Y);
+            this.heuristic = cost + Math.Abs((int)pos.X - (int)target.X) + Math.Abs((int)pos.Y - (int)target.Y);
         }
     }
 
     public class ai
     {
-        public static Point getTarget(Map map, Point pos)
+        public static Vector2 getTarget(Map map, Vector2 pos)
         {
             float strongest = -1;
-            Point target = new Point(-1, -1);
+            Vector2 target = new Vector2(-1, -1);
             foreach (Entity e in map.Entities)
                 if (e is Source)
                 {
@@ -40,22 +40,22 @@ namespace Dischord
                     if ((!(e is SoundSource) || dis <= 4 * Game.TILE_WIDTH) && (e as Source).Strength > strongest)
                     {
                         strongest = (e as Source).Strength;
-                        int x = e.Position.X / Game.TILE_WIDTH;
-                        int y = e.Position.Y / Game.TILE_HEIGHT;
-                        target = new Point(x+1, y+1);
+                        int x = (int)e.Position.X / Game.TILE_WIDTH;
+                        int y = (int)e.Position.Y / Game.TILE_HEIGHT;
+                        target = new Vector2(x+1, y+1);
                     }
                 }
             return target;
         }
 
-        public static Direction findPath(Map map, Point pos, Enemy c)
+        public static Direction findPath(Map map, Vector2 pos, Enemy c)
         {
             if (c.Wait > 0)
             {
                 c.Wait--;
                 return Direction.still;
             }
-            Point target = getTarget(map, pos);
+            Vector2 target = getTarget(map, pos);
             if (target.X != -1)
                 return findPath(map, pos, target);
             // no sound source
@@ -108,7 +108,7 @@ namespace Dischord
             return Direction.still;
         }
 
-        public static Direction findPath(Map map, Point pos, Point target)
+        public static Direction findPath(Map map, Vector2 pos, Vector2 target)
         {
             if (pos == target)
                 return Direction.still;
@@ -117,25 +117,25 @@ namespace Dischord
             Direction[] dir = { Direction.up, Direction.down, Direction.left, Direction.right };
             PriorityQueue<int, PQEntry> queue = new PriorityQueue<int,PQEntry>();
             queue.Enqueue(0, new PQEntry(0, target, pos)); // going from target to pos, purposefully in reverse
-            vis[target.X, target.Y] = true;
+            vis[(int)target.X, (int)target.Y] = true;
             while (!queue.IsEmpty)
             {
                 PQEntry e = queue.Dequeue();
                 //Console.WriteLine(e.pos.X + " " + e.pos.Y);
                 for (int i = 0; i <= d.GetUpperBound(0); i++)
                 {
-                    MapCell cell = map.getCell(e.pos.X + d[i,0], e.pos.Y + d[i,1]); // cell we would move onto
-                    Point p = new Point(e.pos.X + d[i, 0], e.pos.Y + d[i, 1]);
-                    if (cell.Type == MapCell.MapCellType.floor && !vis[p.X, p.Y]) // can only go through floors
+                    MapCell cell = map.getCell((int)e.pos.X + d[i,0], (int)e.pos.Y + d[i,1]); // cell we would move onto
+                    Vector2 p = new Vector2(e.pos.X + d[i, 0], e.pos.Y + d[i, 1]);
+                    if (cell.Type == MapCell.MapCellType.floor && !vis[(int)p.X, (int)p.Y]) // can only go through floors
                     {
                         //Console.WriteLine("> " + p.X + " " + p.Y + ": " + cell.toChar());
-                        PQEntry newEntry = new PQEntry(e.cost + cell.cost(), new Point(e.pos.X + d[i, 0], e.pos.Y + d[i, 1]), pos);
+                        PQEntry newEntry = new PQEntry(e.cost + cell.cost(), new Vector2(e.pos.X + d[i, 0], e.pos.Y + d[i, 1]), pos);
                         queue.Enqueue(newEntry.heuristic, newEntry);
                         if (p == pos) // if we've reached our "target", then this must be the best path; we only care about one move for now, since the obstacles might change before reaching the target
                         {
                             return dir[i];
                         }
-                        vis[p.X, p.Y] = true;
+                        vis[(int)p.X, (int)p.Y] = true;
                     }
                 }
             }

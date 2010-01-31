@@ -139,26 +139,12 @@ namespace Dischord.Engine
 
         public void Draw(SpriteBatch spriteBatch, TileSet tileset, Vector2 position)
         {
-            //int left = (int)Math.Floor(position.X / tileset.TileWidth);
-            //int right = left + spriteBatch.GraphicsDevice.Viewport.Width / tileset.TileWidth;
-            //right = Math.Min(right, tileset.Width  - 1);
-            //int top = (int)Math.Floor(position.Y / tileset.TileHeight);
-            
-            //int bottom = (int)Math.Floor(position.Y / tileset.TileHeight);
-
-
-            //int top = bottom - spriteBatch.GraphicsDevice.Viewport.Height / tileset.TileHeight;
-            //top = (int)Math.Min(top, tileset.Height - 1);
-
             float randyRow = (float)position.Y / tileset.TileHeight;
             float randyCol = (float)position.X / tileset.TileWidth;
             float viewportRows = spriteBatch.GraphicsDevice.Viewport.Height / tileset.TileHeight;
             float viewportCols = spriteBatch.GraphicsDevice.Viewport.Width / tileset.TileWidth;
             float screenRows = Rows;
             float screenCols = Columns;
-            /*
-            float gapFromTop = Math.Max(0, randyRow - viewportRows / 2);
-            float*/
 
             float top = Math.Max(0, randyRow - viewportRows / 2);
             if (randyRow > screenRows - viewportRows / 2)
@@ -166,11 +152,6 @@ namespace Dischord.Engine
             float left = Math.Max(0, randyCol - viewportCols / 2);
             if (randyCol > screenCols - viewportCols / 2)
                 left = screenCols - viewportCols;
-            //top = Math.Min(top, screenRows - viewportRows / 2);
-            //float bottom = Math.Min(screenRows - viewportRows, randyRow + viewportRows / 2);
-            //float bottom = Math.Min((float)tileset.Height / tileset.TileHeight, top + spriteBatch.GraphicsDevice.Viewport.Height / tileset.TileHeight);
-            //float left = Math.Max(0, (float)(position.X / tileset.TileWidth) - spriteBatch.GraphicsDevice.Viewport.Width / (tileset.TileWidth * 2));
-           // float right = Math.Min(tileset.Width / tileset.TileWidth, left + spriteBatch.GraphicsDevice.Viewport.Width / tileset.TileWidth);
 
             int x = 0;
             int y = 0;

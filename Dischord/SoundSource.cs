@@ -6,10 +6,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 namespace Dischord {
-    class SoundSource : Source {        
-        public SoundSource(Point position, SoundEffectInstance sound, float duration, int volume) : base(position, null){
+    class SoundSource : Source {
+        public SoundSource(Vector2 position, SoundEffectInstance sound, float duration, int volume) : base(position, null) {
             if(sound != null) {
-                this.lifeTimer = (float)duration;
+                this.lifeTimer = duration;
             }
             else {
                 this.lifeTimer = 0;
@@ -17,12 +17,12 @@ namespace Dischord {
             }
 
             if(this.isAlive && volume > 0) {
-                int x = position.X / Game.TILE_WIDTH;
-                int y = position.Y / Game.TILE_HEIGHT;
+                int x = (int)position.X / Game.GetInstance().GetTileSet().TileWidth;
+                int y = (int)position.Y / Game.GetInstance().GetTileSet().TileHeight;
                 for(int i = x - volume; i <= x + volume; i++) {
                     for(int j = y - volume; j <= y + volume; j++) {
                         if(i != x || j != y) {
-                            Game.GetInstance().Map.Add(new Source(new Point(i * Game.TILE_WIDTH, j * Game.TILE_HEIGHT), null, lifeTimer + (lifeTimer * 1f / (Math.Abs(x - i) + Math.Abs(y - j))), volume - (Math.Abs(x - i) + Math.Abs(y - j)) + 0.5f));
+                            Game.GetInstance().EManager.Add(new Source(new Vector2(i * Game.GetInstance().GetTileSet().TileWidth, j * Game.GetInstance().GetTileSet().TileHeight), null, lifeTimer + (lifeTimer * 1f / (Math.Abs(x - i) + Math.Abs(y - j))), volume - (Math.Abs(x - i) + Math.Abs(y - j)) + 0.5f));
                         }
                     }
                 }
@@ -34,6 +34,6 @@ namespace Dischord {
                 sound.Play();
             }
         }
-        public SoundSource(Point position, SoundEffect sound, int volume) : this(position, sound.CreateInstance(), (float)sound.Duration.TotalMilliseconds,volume) { }
+        public SoundSource(Vector2 position, SoundEffect sound, int volume) : this(position, sound.CreateInstance(), (float)sound.Duration.TotalMilliseconds, volume) { }
     }
 }

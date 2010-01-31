@@ -5,8 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Dischord.Engine
 {
-    public abstract class SpriteManager
-        : Microsoft.Xna.Framework.DrawableGameComponent
+    public abstract class SpriteManager : Microsoft.Xna.Framework.DrawableGameComponent
     {
         protected List<Sprite> spriteList;
         private AnimationManager animationManager;
@@ -19,9 +18,7 @@ namespace Dischord.Engine
         private int rows;
         private string behaviourPath;
 
-        public SpriteManager(
-            Game game, string imagePath, int columns, int rows, string behaviourPath)
-            : base(game)
+        public SpriteManager(Game game, string imagePath, int columns, int rows, string behaviourPath) : base(game)
         {
             this.imagePath = imagePath;
             this.columns = columns;

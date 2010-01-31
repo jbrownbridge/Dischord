@@ -156,7 +156,7 @@ namespace Dischord
                 for(int j = 0; j < width; j++) {
                     map[i + 1, j + 1] = new MapCell(line[j]);
                     if(map[i + 1, j + 1].Type == MapCell.MapCellType.wall)
-                        entities.Add(new Wall(new Point((j + 1)*32, (i + 1)*32)));
+                        entities.Add(new Wall(new Vector2((j + 1) * 32, (i + 1) * 32)));
                 }
             }
             while (true)
@@ -185,9 +185,9 @@ namespace Dischord
             
             foreach(Entity e in entities) {
                 if(e.IsAlive) {
-                    MapCell tmpcell = e.MapCell;
+                    Engine.Cell tmpcell = e.Cell;
                     if(tmpcell != null) {
-                        e.MapCell.addEntity(e);
+                        e.Cell.addEntity(e);
                         survivors.Add(e);
                     }
                 }
@@ -195,9 +195,9 @@ namespace Dischord
 
             foreach(Entity e in additions) {
                 if(e.IsAlive) {
-                    MapCell tmpcell = e.MapCell;
+                    Engine.Cell tmpcell = e.Cell;
                     if(tmpcell != null) {
-                        e.MapCell.addEntity(e);
+                        e.Cell.addEntity(e);
                         survivors.Add(e);
                     }
                 }

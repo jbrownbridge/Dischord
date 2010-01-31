@@ -6,7 +6,8 @@ using Microsoft.Xna.Framework;
 
 namespace Dischord {
     class VisualSource : Source {
-        public VisualSource(Point position, Sprite sprite, float lifeTimer, float visibility) : base(position,sprite) {
+        public VisualSource(Vector2 position, Sprite sprite, float lifeTimer, float visibility)
+            : base(position, sprite) {
             if(sprite != null) {
                 this.lifeTimer = lifeTimer;
                 strength = visibility;

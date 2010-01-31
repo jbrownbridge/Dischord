@@ -20,8 +20,16 @@ namespace Dischord
     public class Game : Microsoft.Xna.Framework.Game
     {
         private RandyManager randyManager;
+        private MobileManager mobileManager;
         private TileSet tileSet;
         public Engine.Map tileMap;
+        private EntityManager eManager;
+
+        public EntityManager EManager {
+            get {
+                return eManager;
+            }
+        }
 
 
         enum ControlMode {
@@ -47,7 +55,7 @@ namespace Dischord
         {
             get
             {
-                return this.Map.Entities;
+                return this.eManager.Entities;
             }
         }
 
@@ -62,7 +70,7 @@ namespace Dischord
 
         private ControlMode controlMode;
 
-        private Controls characterControls;
+        private Randy character;
 
         private KeyboardState oldstate;
 
@@ -79,9 +87,10 @@ namespace Dischord
             graphics.PreferredBackBufferWidth = 640;
             Content.RootDirectory = "Content";
 
-            randyManager = new RandyManager(
-                this, @"Sprites\randy", 8, 3, @"..\..\..\Content\Behaviours\randy.xml"
-            );
+            mobileManager = new MobileManager(this, @"Sprites\randy", 8, 3, @"..\..\..\Content\Behaviours\randy.xml");
+            this.Components.Add(mobileManager);
+
+            randyManager = new RandyManager(this, @"Sprites\randy", 8, 3, @"..\..\..\Content\Behaviours\randy.xml");
             this.Components.Add(randyManager);
         }
 
@@ -98,7 +107,6 @@ namespace Dischord
             controlMode = ControlMode.movement;
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            characterControls = new Controls();
             rand = new Random();
             hud = new List<HudItem>();
             this.Services.AddService(typeof(SpriteBatch), spriteBatch);
@@ -106,10 +114,16 @@ namespace Dischord
             base.Initialize();
 
             tileSet = new TileSet(Content.Load<Texture2D>(@"Map\tiles"), 1280 / 32, 1600 / 32);
-            tileMap = new Engine.Map(@"..\..\..\Content\Map\hugemap.xml", true);
+            tileMap = new Engine.Map(@"..\..\..\Content\Map\threetree.xml", true);
 
-            randyManager.AddSprite(
-                new Randy(new Vector2(320, 320), 220, Facing.Right, tileMap, tileSet), 12);
+            character = new Randy(new Vector2(320, 320), 220, Facing.Right, tileMap, tileSet);
+
+            randyManager.AddSprite(character, 12);
+            mobileManager.AddSprite(new Mobile(new Vector2(560, 560), 220, Facing.Right, tileMap, tileSet), 12);
+            eManager = new EntityManager(tileMap.Rows, tileMap.Columns);
+
+            //this.map = new Map(MAP_FILE_1);
+            //map.Update();
         }
 
         /// <summary>
@@ -140,7 +154,7 @@ namespace Dischord
             spriteSheets["Enemy"]    = new Sprite(enemy, 128, 128, 8);
             spriteSheets["Character"] = new Sprite(obstacle, 64, 64, 4);
             spriteSheets["Obstacle"] = new Sprite(obstacle, 64, 64, 4);
-            spriteSheets["Smoke"] = new Sprite(smoke, 32, 32, 1);
+            spriteSheets["Smoke"] = new Sprite(smoke, 32, 32, 1,0.6f);
             spriteSheets["Fire"] = new Sprite(fire, 32, 32, 1);
             spriteSheets["GlueTrap"] = new Sprite(gluetrap, 32, 32, 1);
             spriteSheets["Immobilized"] = new Sprite(immobilized, 64, 64, 4);
@@ -153,9 +167,6 @@ namespace Dischord
             birdSong = sounds["Woods"].CreateInstance();
             birdSong.Volume = 0.75f;
             nextBirdSong = (float)(sounds["Woods"].Duration.TotalMilliseconds) + rand.Next((int)sounds["Woods"].Duration.TotalMilliseconds);
-            
-            this.map = new Map(MAP_FILE_1);
-            map.Update();
 
             // TODO: use this.Content to load your game content here
         }
@@ -174,38 +185,19 @@ namespace Dischord
             if(state.IsKeyDown(Keys.Escape))
                 this.Exit();
 
-            int facing = 0;
-
-            if(state.IsKeyDown(Keys.A)) {
-                facing = 3;
-                if(state.IsKeyDown(Keys.W))
-                    ++facing;
-                else if(state.IsKeyDown(Keys.S))
-                    --facing;
-            }
-            else if(state.IsKeyDown(Keys.D)) {
-                facing = 7;
-                if(state.IsKeyDown(Keys.W))
-                    --facing;
-                else if(state.IsKeyDown(Keys.S))
-                    ++facing;
-            }
-            else if(state.IsKeyDown(Keys.W)) {
-                facing = 5;
-            }
-            else if(state.IsKeyDown(Keys.S)) {
-                facing = 1;
-            }
-
-            characterControls.Direction = facing;
-
-            if(state.IsKeyDown(Keys.Space))
-                characterControls.Jump = true;
+            if(state.IsKeyDown(Keys.Up) && state.IsKeyUp(Keys.Down))
+                character.SetDirection(Mobile.Direction.Up);
+            else if(state.IsKeyUp(Keys.Up) && state.IsKeyDown(Keys.Down))
+                character.SetDirection(Mobile.Direction.Down);
+            else if(state.IsKeyDown(Keys.Left) && state.IsKeyUp(Keys.Right))
+                character.SetDirection(Mobile.Direction.Left);
+            else if(state.IsKeyUp(Keys.Left) && state.IsKeyDown(Keys.Right))
+                character.SetDirection(Mobile.Direction.Right);
             else
-                characterControls.Jump = false;
+                character.SetDirection(Mobile.Direction.Stand);
 
-            if(state.IsKeyDown(Keys.Delete) && oldstate.IsKeyUp(Keys.Delete))
-                map.Add(new Fire(new Point(64, 64), 6000f));
+            if(state.IsKeyDown(Keys.Space) && oldstate.IsKeyUp(Keys.Space))
+                eManager.Add(new Fire(character.Position, 6000f));
 
         }
 
@@ -228,16 +220,19 @@ namespace Dischord
                 birdSong.Play();
                 nextBirdSong = (float)(sounds["Woods"].Duration.TotalMilliseconds * 2) + rand.Next((int)sounds["Woods"].Duration.TotalMilliseconds);
             }
-            map.Update();
             //map.draw();
-            foreach (Entity e in map.Entities) {
+            /*
+             * AI Code
+             */
+
+            /*foreach (Entity e in map.Entities) {
                 if (e is Enemy)
                 {
                     int x = e.Position.X / Game.TILE_WIDTH + 1;
                     int y = e.Position.Y / Game.TILE_HEIGHT + 1;
                     Direction d = ai.findPath(map, new Point(x, y), e as Enemy);
                     (e as Enemy).move(d);
-                    if (e.MapCell.Type != MapCell.MapCellType.floor)
+                    if (e.Cell.Type != MapCell.MapCellType.floor)
                     {
                         switch (d)
                         {
@@ -258,8 +253,8 @@ namespace Dischord
                         (e as Enemy).Wait = 50;
                     }
                 }
-            }
-            map.Update(); // FIXME: Are 2 update calls really required?
+            }*/
+            //map.Update(); // FIXME: Are 2 update calls really required?
             //map.draw();
             KeyboardState state = Keyboard.GetState();
 
@@ -279,8 +274,8 @@ namespace Dischord
             {
                 entity.Update(gameTime);
             }
-
-            map.Update();
+            eManager.Update();
+            //map.Update();
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -300,7 +295,6 @@ namespace Dischord
             foreach (Entity entity in Entities)
             {
                 entity.Draw(gameTime);
-
             }
             foreach (HudItem h in hud)
             {
@@ -315,7 +309,7 @@ namespace Dischord
             spriteBatch.GraphicsDevice.RenderState.DepthBufferFunction = CompareFunction.GreaterEqual;
             spriteBatch.GraphicsDevice.RenderState.AlphaTestEnable = true;
 
-
+            //this draws the map
             tileMap.Draw(spriteBatch, tileSet, randyManager.Sprites.First().Position);
             base.Draw(gameTime);
             spriteBatch.End();
@@ -346,12 +340,21 @@ namespace Dischord
             return spriteSheets[spriteName];
         }
 
-        public Controls GetCharacterControls() {
-            return characterControls;
-        }
-
         public SoundEffect GetSound(String soundName) {
             return sounds[soundName];
         }
+
+        public TileSet GetTileSet() {
+            return tileSet;
+        }
+
+        public Vector2 CharacterPosition() {
+            return character.Position;
+        }
+
+        public Vector2 RenderPosition() {
+            return character.RenderPos;
+        }
+
     }
 }

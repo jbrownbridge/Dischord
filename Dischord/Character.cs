@@ -13,18 +13,15 @@ namespace Dischord
         protected SoundEffectInstance walkingSound;
         protected float walkingSoundDuration;
 
-        public Character(Point position, Sprite sprite) : base(position, sprite) {
-            controls = Game.GetInstance().GetCharacterControls();
+        public Character(Vector2 position)
+            : base(position, null) {
             walkingSound = Game.GetInstance().GetSound("Walk").CreateInstance();
             walkingSoundDuration = (float)Game.GetInstance().GetSound("Walk").Duration.Milliseconds;
             walkingSound.Volume = 1f;
         }
 
-        public Character(Point position, Sprite sprite, float animationInterval) : base(position, sprite, animationInterval) {
-            controls = Game.GetInstance().GetCharacterControls();
-            walkingSound = Game.GetInstance().GetSound("Walk").CreateInstance();
-            walkingSoundDuration = (float)Game.GetInstance().GetSound("Walk").Duration.Milliseconds;
-            walkingSound.Volume = 1f;
+        public void ChangePos() {
+
         }
 
         public override void Update(GameTime gameTime) {
@@ -67,10 +64,6 @@ namespace Dischord
 
         public override void Draw(GameTime gameTime) {
             base.Draw(gameTime);
-        }
-
-        public override char toChar() {
-            return 'C';
         }
     }
 }

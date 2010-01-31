@@ -22,7 +22,8 @@ namespace Dischord
             speed = SPEED;
         }
 
-        public Enemy(Point position, Sprite sprite) : base(position, sprite) {
+        public Enemy(Vector2 position, Sprite sprite)
+            : base(position, sprite) {
             wait = 0;
             speed = SPEED;
         }
@@ -30,19 +31,19 @@ namespace Dischord
         public void move(Direction d) {
             switch(d) {
                 case Direction.up:
-                    position = new Point(Position.X, Position.Y - speed);
+                    position = new Vector2(Position.X, Position.Y - speed);
                     facing = 5;
                     break;
                 case Direction.down:
-                    position = new Point(Position.X, Position.Y + speed);
+                    position = new Vector2(Position.X, Position.Y + speed);
                     facing = 1;
                     break;
                 case Direction.left:
-                    position = new Point(Position.X - speed, Position.Y);
+                    position = new Vector2(Position.X - speed, Position.Y);
                     facing = 3;
                     break;
                 case Direction.right:
-                    position = new Point(Position.X + speed, Position.Y);
+                    position = new Vector2(Position.X + speed, Position.Y);
                     facing = 7;
                     break;
                 case Direction.still:
