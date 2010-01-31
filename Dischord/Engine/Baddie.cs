@@ -57,6 +57,9 @@ namespace Dischord.Engine {
                         blind = true;
                         break;
                     }
+                    if(e is Character) {
+
+                    }
                 }
 
                 for(int i = yval - 6; i < yval + 7; i++) {

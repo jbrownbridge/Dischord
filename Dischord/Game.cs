@@ -36,6 +36,7 @@ namespace Dischord
             menu,
             movement,
             action,
+            gameover,
         };
 
         public const int TILE_HEIGHT = 32;
@@ -119,6 +120,10 @@ namespace Dischord
             tileMap = new Engine.Map(@"..\..\..\Content\Map\threetree.xml", true);
 
             eManager = new EntityManager(tileMap.Rows, tileMap.Columns);
+
+            foreach(Vector2 pos in tileMap.GoalSpawnPoints) {
+                eManager.Add(new Goal(pos));
+            }
 
             character = new Randy(new Vector2(320, 320), 220, Facing.Right, tileMap, tileSet);
 
@@ -263,30 +268,30 @@ namespace Dischord
                     //}
                 }
             }*/
-
-            //map.Update(); // FIXME: Are 2 update calls really required?
-            //map.draw();
             KeyboardState state = Keyboard.GetState();
+            if(controlMode != ControlMode.gameover) {
+                switch(controlMode) {
+                    case ControlMode.movement:
+                        HandleMovementInput(state);
+                        break;
+                    case ControlMode.action:
+                        HandleActionInput(state);
+                        break;
+                    case ControlMode.menu:
+                        HandleMenuInput(state);
+                        break;
+                }
 
-            switch(controlMode) {
-                case ControlMode.movement:
-                    HandleMovementInput(state);
-                    break;
-                case ControlMode.action:
-                    HandleActionInput(state);
-                    break;
-                case ControlMode.menu:
-                    HandleMenuInput(state);
-                    break;
+                foreach(Entity entity in Entities) {
+                    entity.Update(gameTime);
+                }
+                eManager.Update();
+                //map.Update();
+                // TODO: Add your update logic here
             }
+            else {
 
-            foreach (Entity entity in Entities)
-            {
-                entity.Update(gameTime);
             }
-            eManager.Update();
-            //map.Update();
-            // TODO: Add your update logic here
 
             base.Update(gameTime);
             oldstate = state;
@@ -355,6 +360,10 @@ namespace Dischord
 
         public Vector2 RenderPosition() {
             return character.RenderPos;
+        }
+
+        public void Death() {
+            controlMode = ControlMode.gameover;
         }
 
     }
