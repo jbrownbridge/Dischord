@@ -11,14 +11,21 @@ namespace Dischord.Engine
 {
     public class Map
     {
-        public const int TRANSPARENT_INDEX = 1244;
-        public const int ABOVE_PLAYER_LAYER_START = 8;
+        public const int TRANSPARENT_INDEX          = 1244;
+        public const int ABOVE_PLAYER_LAYER_START   = 8;
+        public const int ENTITY_LAYER               = 9;
+        public const int PLAYER_START_TILE_CODE     = 83;
+        public const int ENEMEY_SPAWN_TILE_CODE     = 60;
+        public const int GOAL_SPAWN_TILE_POINT      = 84;
 
         private int columns;
         private int rows;
         private int[,] walkable;
         private List<Terrain> terrainList;
         private int tileSize;
+        private List<Vector2> enemySpawnPoints = new List<Vector2>();
+        private List<Vector2> goalSpawnPoints = new List<Vector2>();
+        private Vector2 playerSpawnPoint = Vector2.Zero;
 
         public Map(string xmlFile, bool convert)
         {
@@ -61,8 +68,25 @@ namespace Dischord.Engine
                     {
                         int tileCode = int.Parse(tile);
                         if (tileCode == -1)
-                            tileCode = TRANSPARENT_INDEX;
-                        
+                            tileCode = Map.TRANSPARENT_INDEX;
+                        if (int.Parse(tileRow.Attributes["Id"].Value == Map.ENTITY_LAYER))
+                        {
+                            switch (tileCode)
+                            {
+                                case Map.ENEMEY_SPAWN_TILE_CODE:
+                                    tileCode = Map.TRANSPARENT_INDEX;
+                                    this.enemySpawnPoints.Add(new Vector2(x * tileSize, y * tileSize));
+                                    break;
+                                case Map.GOAL_SPAWN_TILE_POINT:
+                                    tileCode = Map.TRANSPARENT_INDEX;
+                                    this.goalSpawnPoints.Add(new Vector2(x * tileSize, y * tileSize));
+                                    break;
+                                case Map.PLAYER_START_TILE_CODE:
+                                    tileCode = Map.TRANSPARENT_INDEX;
+                                    this.playerSpawnPoint = new Vector2(x * tileSize, y * tileSize);
+                                    break;
+                            }
+                        }
                         lastTileRowAdded.TileList.Add(new Tile(tileCode, 0));
                     }
                 }
@@ -354,6 +378,29 @@ namespace Dischord.Engine
         public Terrain this[int index]
         {
             get { return terrainList[index]; }
+        }
+
+        public IEnumerable<Vector2> EnemySpawnPoints
+        {
+            get
+            {
+                foreach (Vector2 point in enemySpawnPoints)
+                    yield return point;
+            }
+        }
+
+        public IEnumerable<Vector2> GoalSpawnPoints
+        {
+            get
+            {
+                foreach (Vector2 point in goalSpawnPoints)
+                    yield return point;
+            }
+        }
+
+        public Vector2 PlayerSpawnPoint
+        {
+            get { return playerSpawnPoint; }
         }
     }
 }
