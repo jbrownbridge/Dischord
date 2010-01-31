@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<Map>
+   <WalkableLayer>
+      <TileRow>
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="0" />
+         <Tile Walkable="0" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="0" />
+         <Tile Walkable="0" />
+      </TileRow>
+      <TileRow>
+         <Tile Walkable="1" />
+         <Tile Walkable="0" />
+         <Tile Walkable="0" />
+         <Tile Walkable="0" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+      </TileRow>
+      <TileRow>
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="0" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+      </TileRow>
+      <TileRow>
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+      </TileRow>
+      <TileRow>
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="0" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+      </TileRow>
+      <TileRow>
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="0" />
+         <Tile Walkable="0" />
+         <Tile Walkable="0" />
+         <Tile Walkable="0" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+      </TileRow>
+      <TileRow>
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="0" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="0" />
+      </TileRow>
+      <TileRow>
+         <Tile Walkable="0" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="0" />
+         <Tile Walkable="1" />
+         <Tile Walkable="1" />
+         <Tile Walkable="0" />
+         <Tile Walkable="0" />
+      </TileRow>
+   </WalkableLayer>
+
+   <TerrainLayer>
+      <TileRow>
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+      </TileRow>
+      <TileRow>
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+      </TileRow>
+      <TileRow>
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+      </TileRow>
+      <TileRow>
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+      </TileRow>
+      <TileRow>
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+      </TileRow>
+      <TileRow>
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+      </TileRow>
+      <TileRow>
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+      </TileRow>
+      <TileRow>
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+         <Tile Position="5" Rotation="0" />
+      </TileRow>
+   </TerrainLayer>
+
+   <TerrainLayer>
+      <TileRow>
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="4" Rotation="90" />
+         <Tile Position="4" Rotation="270" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="7" Rotation="90" />
+         <Tile Position="4" Rotation="0" />
+      </TileRow>
+      <TileRow>
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="6" Rotation="270" />
+         <Tile Position="4" Rotation="0" />
+         <Tile Position="4" Rotation="270" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+      </TileRow>
+      <TileRow>
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="6" Rotation="180" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+      </TileRow>
+      <TileRow>
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+      </TileRow>
+      <TileRow>
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="6" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+      </TileRow>
+      <TileRow>
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="6" Rotation="270" />
+         <Tile Position="4" Rotation="180" />
+         <Tile Position="3" Rotation="90" />
+         <Tile Position="7" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+      </TileRow>
+      <TileRow>
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="3" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="7" Rotation="180" />
+      </TileRow>
+      <TileRow>
+         <Tile Position="2" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="3" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="1" Rotation="0" />
+         <Tile Position="7" Rotation="180" />
+         <Tile Position="8" Rotation="0" />
+      </TileRow>
+   </TerrainLayer>
+</Map>

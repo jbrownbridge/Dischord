@@ -8,8 +8,8 @@ namespace Dischord
 {
     public class StaticEntity : Entity
     {
-        public StaticEntity(Point position, Sprite sprite) : base(position, sprite) { }
+        public StaticEntity(Vector2 position, Sprite sprite) : base(position, sprite) { }
 
-        public StaticEntity(Point position, Sprite sprite, float animationInterval) : base(position, sprite, animationInterval) { }
+        public StaticEntity(Vector2 position, Sprite sprite, float animationInterval) : base(position, sprite) { }
     }
 }

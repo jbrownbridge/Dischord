@@ -71,6 +71,8 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -88,8 +90,23 @@
     <Compile Include="Character.cs" />
     <Compile Include="Controls.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="Engine\Animation.cs" />
+    <Compile Include="Engine\AnimationManager.cs" />
+    <Compile Include="Engine\Frame.cs" />
+    <Compile Include="Engine\Map.cs" />
+    <Compile Include="Engine\Randy.cs" />
+    <Compile Include="Engine\RandyManager.cs" />
+    <Compile Include="Engine\Sprite.cs" />
+    <Compile Include="Engine\SpriteManager.cs" />
+    <Compile Include="Engine\Terrain.cs" />
+    <Compile Include="Engine\Tile.cs" />
+    <Compile Include="Engine\TileRow.cs" />
+    <Compile Include="Engine\TileSet.cs" />
+    <Compile Include="Engine\Utility.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Fire.cs" />
+    <Compile Include="GlueTrap.cs" />
+    <Compile Include="HudItem.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Obstacle.cs" />
     <Compile Include="PriorityQueue.cs" />
@@ -102,6 +119,7 @@
     <Compile Include="Sprite.cs" />
     <Compile Include="StaticEntity.cs" />
     <Compile Include="VisualSource.cs" />
+    <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
@@ -153,6 +171,7 @@
     <Content Include="maps\simple4.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="sounds\fsssh3.wma" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="maps\large1.map">

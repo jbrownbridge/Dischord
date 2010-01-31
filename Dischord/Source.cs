@@ -15,11 +15,12 @@ namespace Dischord
             get { return strength; }
         }
 
-        public Source(Point position, Sprite sprite) : base(position, sprite) {
+        public Source(Vector2 position, Sprite sprite) : base(position, sprite) {
             lifeTimer = 0;
         }
 
-        public Source(Point position, Sprite sprite, float lifeTimer, float strength) : this(position, sprite) {
+        public Source(Vector2 position, Sprite sprite, float lifeTimer, float strength)
+            : this(position, sprite) {
             this.lifeTimer = lifeTimer;
             this.strength = strength;
         }
