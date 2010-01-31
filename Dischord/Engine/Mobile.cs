@@ -86,18 +86,7 @@ namespace Dischord.Engine {
                 this.Position += this.Movement;
                 this.Animation.UpdateFrame(elapsedTime);
             }
-            this.Position = new Vector2(
-                MathHelper.Clamp(
-                    this.Position.X,
-                    viewport.X + this.Animation.AnimationManager.Origin.X,
-                    map.Width - this.Animation.AnimationManager.Origin.X
-                ),
-                MathHelper.Clamp(
-                    this.Position.Y,
-                    viewport.Y + this.Animation.AnimationManager.Origin.Y,
-                    map.Height - this.Animation.AnimationManager.Origin.Y
-                )
-            );
+            //enemy.ChangePos(Position);
         }
 
         public virtual void Draw() {

@@ -22,10 +22,25 @@ namespace Dischord
             speed = SPEED;
         }
 
+        public Boolean IsMobile() {
+            if(speed != 0)
+                return true;
+            else
+                return false;
+        }
+
+        public void ChangePos(Vector2 position) {
+            this.position = position;
+        }
+
         public Enemy(Vector2 position, Sprite sprite)
             : base(position, sprite) {
             wait = 0;
             speed = SPEED;
+        }
+
+        public override void Draw(GameTime gameTime) {
+            //base.Draw(gameTime);
         }
 
         public void move(Direction d) {

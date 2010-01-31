@@ -12,6 +12,7 @@ namespace Dischord.Engine
         private TileSet tileSet;
         private Vector2 renderPos;
         private Boolean moving;
+        private Character character;
 
         protected SoundEffectInstance walkingSound;
         protected float walkingSoundDuration;
@@ -32,6 +33,8 @@ namespace Dischord.Engine
             walkingSoundDuration = (float)Game.GetInstance().GetSound("Walk").Duration.TotalMilliseconds;
             walkingSound.Volume = 1f;
             moving = false;
+            character = new Character(Position);
+            Game.GetInstance().EManager.Add(character);
         }
 
         public override void Initialize()
@@ -72,6 +75,8 @@ namespace Dischord.Engine
 
                 moving = false;
             }
+
+            character.ChangePos(Position);
         }
 
         public override void Draw()

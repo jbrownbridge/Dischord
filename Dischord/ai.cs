@@ -33,15 +33,15 @@ namespace Dischord
         {
             float strongest = -1;
             Vector2 target = new Vector2(-1, -1);
-            foreach (Entity e in map.Entities)
+            foreach (Entity e in Game.GetInstance().EManager.Entities)
                 if (e is Source)
                 {
                     double dis = Math.Sqrt(Math.Pow(e.Position.X - pos.X, 2) + Math.Pow(e.Position.Y - pos.Y, 2));
-                    if ((!(e is SoundSource) || dis <= 4 * Game.TILE_WIDTH) && (e as Source).Strength > strongest)
+                    if ((!(e is SoundSource) || dis <= 4 * Game.GetInstance().GetTileSet().TileWidth) && (e as Source).Strength > strongest)
                     {
                         strongest = (e as Source).Strength;
-                        int x = (int)e.Position.X / Game.TILE_WIDTH;
-                        int y = (int)e.Position.Y / Game.TILE_HEIGHT;
+                        int x = (int)e.Position.X / Game.GetInstance().GetTileSet().TileWidth;
+                        int y = (int)e.Position.Y / Game.GetInstance().GetTileSet().TileHeight;
                         target = new Vector2(x+1, y+1);
                     }
                 }

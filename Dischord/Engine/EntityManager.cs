@@ -62,6 +62,10 @@ namespace Dischord.Engine {
             additions.Add(e);
         }
 
+        public void Del(Entity e) {
+            additions.Remove(e);
+        }
+
         public void Update() {
 
             for(int i = 0; i < rows; i++)

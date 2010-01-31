@@ -116,11 +116,12 @@ namespace Dischord
             tileSet = new TileSet(Content.Load<Texture2D>(@"Map\tiles"), 1280 / 32, 1600 / 32);
             tileMap = new Engine.Map(@"..\..\..\Content\Map\threetree.xml", true);
 
+            eManager = new EntityManager(tileMap.Rows, tileMap.Columns);
+
             character = new Randy(new Vector2(320, 320), 220, Facing.Right, tileMap, tileSet);
 
             randyManager.AddSprite(character, 12);
-            mobileManager.AddSprite(new Mobile(new Vector2(560, 560), 220, Facing.Right, tileMap, tileSet), 12);
-            eManager = new EntityManager(tileMap.Rows, tileMap.Columns);
+            mobileManager.AddSprite(new Baddie(new Vector2(320, 560), 220, Facing.Right, tileMap, tileSet), 12);
 
             //this.map = new Map(MAP_FILE_1);
             //map.Update();
@@ -199,6 +200,9 @@ namespace Dischord
             if(state.IsKeyDown(Keys.Space) && oldstate.IsKeyUp(Keys.Space))
                 eManager.Add(new Fire(character.Position, 6000f));
 
+            if(state.IsKeyDown(Keys.Enter) && oldstate.IsKeyUp(Keys.Enter))
+                eManager.Add(new GlueTrap(character.Position, spriteSheets["GlueTrap"]));
+
         }
 
         protected virtual void HandleActionInput(KeyboardState state) {
@@ -225,15 +229,15 @@ namespace Dischord
              * AI Code
              */
 
-            /*foreach (Entity e in map.Entities) {
+            /*foreach (Entity e in eManager.Entities) {
                 if (e is Enemy)
                 {
-                    int x = e.Position.X / Game.TILE_WIDTH + 1;
-                    int y = e.Position.Y / Game.TILE_HEIGHT + 1;
-                    Direction d = ai.findPath(map, new Point(x, y), e as Enemy);
+                    int x = (int)e.Position.X / tileSet.TileWidth;
+                    int y = (int)e.Position.Y / tileSet.TileHeight;
+                    Direction d = ai.findPath(map, new Vector2(x, y), e as Enemy);
                     (e as Enemy).move(d);
-                    if (e.Cell.Type != MapCell.MapCellType.floor)
-                    {
+                    //if (e.Cell.Type != MapCell.MapCellType.floor)
+                    //{
                         switch (d)
                         {
                             case Direction.up:
@@ -251,9 +255,10 @@ namespace Dischord
                         }
                         (e as Enemy).move(d);
                         (e as Enemy).Wait = 50;
-                    }
+                    //}
                 }
             }*/
+
             //map.Update(); // FIXME: Are 2 update calls really required?
             //map.draw();
             KeyboardState state = Keyboard.GetState();
