@@ -43,7 +43,7 @@ namespace Dischord
             //base.Draw(gameTime);
         }
 
-        public void move(Direction d) {
+        /*public void move(Direction d) {
             switch(d) {
                 case Direction.up:
                     position = new Vector2(Position.X, Position.Y - speed);
@@ -66,7 +66,7 @@ namespace Dischord
                 default:
                     throw new ArgumentException("This should *never* print");
             }
-        }
+        }*/
 
         public override char toChar()
         {

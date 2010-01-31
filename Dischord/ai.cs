@@ -96,7 +96,7 @@ namespace Dischord
         {
             return
                 intersection(lineA, lineB, squareA, new Point(squareA.X + Game.TILE_WIDTH, squareA.Y)) ||
-                intersection(lineA, lineB, squareA, new Point(squareA.X, squareA.Y + Game.TULE_HEIGHT)) ||
+                intersection(lineA, lineB, squareA, new Point(squareA.X, squareA.Y + Game.TILE_HEIGHT)) ||
                 intersection(lineA, lineB, new Point(squareA.X + Game.TILE_WIDTH, squareA.Y), new Point(squareA.X + Game.TILE_WIDTH, squareA.Y + Game.TILE_HEIGHT)) ||
                 intersection(lineA, lineB, new Point(squareA.X, squareA.Y + Game.TILE_HEIGHT), new Point(squareA.X + Game.TILE_WIDTH, squareA.Y + Game.TILE_HEIGHT));
         }

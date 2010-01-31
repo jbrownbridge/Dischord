@@ -27,19 +27,25 @@ namespace Dischord.Engine
         }
 
         public void useGlue() {
-            Game.GetInstance().EManager.Add(new GlueTrap(Position, Game.GetInstance().GetSprite("GlueTrap")));
-            Game.GetInstance().EManager.Add(new SoundSource(Position, Game.GetInstance().GetSound("GlueTrap"),0));
-            nextGlue = 20000f;
+            if(nextGlue < 0) {
+                Game.GetInstance().EManager.Add(new GlueTrap(Position, Game.GetInstance().GetSprite("GlueTrap")));
+                Game.GetInstance().EManager.Add(new SoundSource(Position, Game.GetInstance().GetSound("GlueTrap"), 0));
+                nextGlue = 30f;
+            }
         }
 
         public void useLyre() {
-            Game.GetInstance().EManager.Add(new SoundSource(Position, Game.GetInstance().GetSound("Lyre"),12));
-            nextLyre = 5000f;
+            if(nextLyre < 0) {
+                Game.GetInstance().EManager.Add(new SoundSource(Position, Game.GetInstance().GetSound("Lyre"), 12));
+                nextLyre = 10f;
+            }
         }
 
         public void useFire() {
-            Game.GetInstance().EManager.Add(new Fire(Position, 6000f));
-            nextFire = 25000f;
+            if(nextFire < 0) {
+                Game.GetInstance().EManager.Add(new Fire(Position, 6000f));
+                nextFire = 25f;
+            }
         }
 
         public Randy(Vector2 position, float maxSpeed, Facing facing, Map map, TileSet tileSet) : base(position, maxSpeed, facing,map,tileSet) {
@@ -54,10 +60,9 @@ namespace Dischord.Engine
             moving = false;
             character = new Character(Position);
             Game.GetInstance().EManager.Add(character);
-            nextLyre = 0;
-            nextGlue = 0;
-            nextFire = 0;
-            Game.GetInstance().EManager.Add(new Goal(Position));
+            nextLyre = -1;
+            nextGlue = -1;
+            nextFire = -1;
         }
 
         public override void Initialize()
@@ -81,6 +86,16 @@ namespace Dischord.Engine
 
         public override void UpdatePositionAndFrame(float elapsedTime, Viewport viewport) {
             base.UpdatePositionAndFrame(elapsedTime, viewport);
+
+            if(nextFire > 0)
+                nextFire -= elapsedTime;
+
+            if(nextGlue > 0)
+                nextGlue -= elapsedTime;
+
+            if(nextLyre > 0)
+                nextLyre -= elapsedTime;
+
             if(direction != Direction.Stand) {
                 if(moving == false)
                     Game.GetInstance().EManager.Add(new SoundSource(Position, walkingSound, walkingSoundDuration, 1));
