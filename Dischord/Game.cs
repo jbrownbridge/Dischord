@@ -44,6 +44,8 @@ namespace Dischord
         public const String MAP_FILE_2 = "maps/simple2.map";
         public const String MAP_FILE_3 = "maps/simple3.map";
         public const String MAP_FILE_4 = "maps/simple4.map";
+        public const String MAP_FILE_5 = "maps/large1.map";
+        public const String MAP_FILE_6 = "maps/large_sparse.map";
 
         GraphicsDeviceManager graphics;
 
@@ -232,9 +234,7 @@ namespace Dischord
             /*foreach (Entity e in eManager.Entities) {
                 if (e is Enemy)
                 {
-                    int x = (int)e.Position.X / tileSet.TileWidth;
-                    int y = (int)e.Position.Y / tileSet.TileHeight;
-                    Direction d = ai.findPath(map, new Vector2(x, y), e as Enemy);
+                    Direction d = ai.findPath(map, e.Position, e as Enemy);
                     (e as Enemy).move(d);
                     //if (e.Cell.Type != MapCell.MapCellType.floor)
                     //{
