@@ -324,10 +324,13 @@ namespace Dischord
                 // TODO: Add your update logic here
             }
             else {
-                if(gameovery < 250)
+                if (gameovery < 250)
                     gameovery++;
                 else
-                    Exit();
+                {
+                    currentMapIndex = 0;
+                    LoadLevel();
+                }
             }
 
             base.Update(gameTime);
@@ -404,7 +407,7 @@ namespace Dischord
         public void Death() {
             controlMode = ControlMode.gameover;
             sounds["Death"].Play();
-            this.Components.Remove(mobileManager);
+            //this.Components.Remove(mobileManager);
             mobileManager.Reset();
             //randyManager.Reset();
             eManager.Reset();
