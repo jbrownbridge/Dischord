@@ -278,11 +278,6 @@ namespace Dischord
                 opening_layer = 0.0f;
                 nextMenuTime = 5.0f;
             }
-            
-            if(nextMenuTime < 0 && opening_layer != 1.0f) {
-                instructions_layer = 0.0f;
-                controlMode = ControlMode.movement;
-            }
         }
 
         /// <summary>
